@@ -5,6 +5,11 @@
 		<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script type="text/javascript" src="js/three.min.js"></script>
 		<script type="text/javascript" src="js/Detector.js"></script>
+		<script type="text/javascript" src="js/OrbitControls.js"></script>
+		<script type="text/javascript" src="js/Stats.js"></script>
+		<script src="js/THREEx.KeyboardState.js"></script>
+		<script src="js/THREEx.FullScreen.js"></script>
+		<script src="js/THREEx.WindowResize.js"></script>
 		<title>Room</title>
 		<style type="text/css">
 			canvas {
@@ -12,59 +17,100 @@
 				border: 1px solid #000000;
 			}
 		</style>
-
 	</head>
-	<body onload="webGLinit()">
+	<body>
 		<form method="get">
-	        <input type="text" name="width" size="20" maxlength="3" placeholder="가로 길이" /> x 
-	        <input type="text" name="length" size="20" maxlength="3" placeholder="세로 길이" /> x
-	        <input type="text" name="height" size="20" maxlength="3" placeholder="높이" />
-	        <input type="submit" value="만들기" onclick="input()" />
+	        <input type="text" name="width" id="width" size="20" maxlength="3" placeholder="가로 길이" /> x 
+	        <input type="text" name="leng" id="leng" size="20" maxlength="3" placeholder="세로 길이" /> x
+	        <input type="text" name="height" id="height" size="20" maxlength="3" placeholder="높이" />
+	        <!--<input type="submit" value="만들기" onclick="input()" />-->
+	        <button type="button">만들기</button>
     	</form>
+    	<div id="room"></div>
 	</body>
 	<script type="text/javascript">
-		var scene = new THREE.Scene();
-		var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000); //PerspectiveCamera( fov, aspect, near, far )
+		// standard global variables
+		var container, scene, camera, renderer, controls, stats;
+		var keyboard = new THREEx.KeyboardState();
+		var clock = new THREE.Clock();
 
-		var renderer = new THREE.WebGLRenderer();
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		
-		document.body.appendChild(renderer.domElement);
-		
-		function input() {
-			var width = document.getElementsByName("width").value;
-			var length = document.getElementsByName("length").value;
-			var height = document.getElementsByName("height").value;
-	    }
+		// custom global variables
+		var mesh;
 
-		function webGLinit() {
-			var width, length, height;
+		init();
+		animate();
 
-			console.log(width);
-			console.log(length);
-			console.log(height);
+		// FUNCTIONS 		
+		function init() {
+			// SCENE
+			scene = new THREE.Scene();
+			// CAMERA
+			var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+			var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+			camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+			scene.add(camera);
+			camera.position.set(0,150,400);
+			camera.lookAt(scene.position);	
+			// RENDERER
+			if ( Detector.webgl )
+				renderer = new THREE.WebGLRenderer( {antialias:true} );
+			else
+				renderer = new THREE.CanvasRenderer(); 
+			renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+			container = document.getElementById('room');
+			container.appendChild( renderer.domElement );
+			// EVENTS
+			THREEx.WindowResize(renderer, camera);
+			THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
+			// CONTROLS
+			controls = new THREE.OrbitControls( camera, renderer.domElement );
+			// STATS
+			stats = new Stats();
+			stats.domElement.style.position = 'absolute';
+			stats.domElement.style.bottom = '0px';
+			stats.domElement.style.zIndex = 100;
+			container.appendChild( stats.domElement );
+			// LIGHT
+			var light = new THREE.PointLight(0xffffff);
+			light.position.set(100,250,100);
+			scene.add(light);
 
-	    	var geometry = new THREE.CubeGeometry(width, length, height);
-			var material = new THREE.MeshBasicMaterial({color: 0xfffff});
-			var cube = new THREE.Mesh(geometry, material);
-			scene.add(cube);
+			//방 모양 틀 만들기
+			var gridXZ = new THREE.GridHelper(100, 10);
+			gridXZ.setColors( new THREE.Color(0x006600), new THREE.Color(0x006600) );
+			gridXZ.position.set( 100,0,100 );
+			scene.add(gridXZ);
 
-			camera.position.z = 5;
+			var gridXY = new THREE.GridHelper(100, 10);
+			gridXY.position.set( 100,100,0 );
+			gridXY.rotation.x = Math.PI/2;
+			gridXY.setColors( new THREE.Color(0x000066), new THREE.Color(0x000066) );
+			scene.add(gridXY);
 
-			var render = function () {
-				requestAnimationFrame(render);
+			var gridYZ = new THREE.GridHelper(100, 10);
+			gridYZ.position.set( 0,100,100 );
+			gridYZ.rotation.z = Math.PI/2;
+			gridYZ.setColors( new THREE.Color(0x660000), new THREE.Color(0x660000) );
+			scene.add(gridYZ);
+		}
 
-				//cube.rotation.x += 0.1; //x축 회전
-				//cube.rotation.y += 0.1; //y축 회전
+		function animate() {
+		    requestAnimationFrame( animate );
+			render();		
+			update();
+		}
 
-				renderer.render(scene, camera);
-			};
+		function update() {
+			// if ( keyboard.pressed("z") ) 
+			// {	// do something   
+			// }
 
-			render();
-	    }
+			controls.update();
+			stats.update();
+		}
 
-		//form 전송하면 설정해 준 크기의 방 모양 나오고
-		//방 모양에서 일정한 크기로 쪼개져서 선택하면 음영 반영
-		//방 모양의 물체를 마우스로 위치를 이동시킬 수 있음
+		function render() {
+			renderer.render( scene, camera );
+		}
 	</script>
 </html>
