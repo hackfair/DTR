@@ -1,25 +1,67 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-    <meta charset="utf-8">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <title>DtR</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <!-- Le styles -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css" />
     <style type="text/css">
+      * {
+        color: #A6A6A6;
+      }
       body {
         padding-top: 60px;
         padding-bottom: 40px;
       }
-      
+      .row {
+        width: 980px;
+        margin: 0 auto;
+        padding: 0;
+      }
+      #container table {
+        width: 700px;
+        margin: 0 auto;
+        border: 1px solid #fafafa;
+      }
+        #container table tr {
+          border: 1px solid #fafafa;
+        }
+          #container table tr th {
+            height: 30px;
+            background-color: #3DB7CC;
+            color: #ffffff;
+          }
+          #container table tr.title th.num{
+            width: 100px;
+          }
+          #container table tr.title th.title{
+            width: 200px;
+          }
+          #container table tr.title th.writer{
+            width: 150px;
+          }
+          #container table tr.title th.date{
+            width: 150px;
+          }
+          #container table tr.title th.cnt{
+            width: 100px;
+          }
+          #container table tr.content {
+            height: 30px;
+            margin: 0 auto;
+          }
+          #container table tr.content td {
+            text-align: center;
+          }
+          #container table tr.content td a {
+            color: #A6A6A6;
+          }
+          #container table tr.content td.title {
+            text-align: left;
+          }
     </style>
-    <link href="/css/bootstrap-responsive.css" rel="stylesheet">
   </head>
-
   <body>
-
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
@@ -46,58 +88,47 @@
         </div>
       </div>
     </div>
-    <div class="container">
-      <section>
-       <table align="center" border="0" cellpadding="0" cellspacing="0" width="700">
-		<tr>
-			<th bgcolor="33CCFF" width="100" height="30">번호</th>
-			<th bgcolor="33CCFF" width="200" height="30">제목</th>
-			<th bgcolor="33CCFF" width="150" height="30">작성자</th>
-			<th bgcolor="33CCFF" width="150" height="30">등록일</th>
-			<th bgcolor="33CCFF" width="100" height="30">조회수</th>
-		</tr>
-		
-		<tr height="50" align="center">
-			<td>2</td>
-			<td align="left"><a href="#">두번째 게시물</a></td>
-			<td>관리자</td>
-			<td>2013/08/31</td>  <!-- 날짜  -->
-			<td>0</td>
-		</tr>
-		
-		<tr height="50" align="center">
-			<td>1</td>
-			<td align="left"><a href="#">첫번째 게시물</a></td>
-			<td>관리자</td>
-			<td>2013/08/30</td>  <!-- 날짜  -->
-			<td>0</td>
-		</tr>
-		
-		</table>
-		
-		
-	 </section>
-     <hr>
-	 
+    <div id="container" class="row">
+      <table>
+        <tr class="title">
+          <th class="num">번호</th>
+          <th class="title">제목</th>
+          <th class="writer">작성자</th>
+          <th class="date">등록일</th>
+          <th class="cnt">조회수</th>
+        </tr>
+        <tr class="content">
+          <td>2</td>
+          <td class="title"><a href="#">두번째 게시물</a></td>
+          <td>관리자</td>
+          <td>2013/08/31</td>  <!-- 날짜  -->
+          <td>0</td>
+        </tr>
+        <tr class="content">
+          <td>1</td>
+          <td class="title"><a href="#">첫번째 게시물</a></td>
+          <td>관리자</td>
+          <td>2013/08/30</td>  <!-- 날짜  -->
+          <td>0</td>
+        </tr>
+      </table>
+      <hr />
       <div class="footer">
-        <p>© HackFair Team_DtR 2013</p>
+        © HackFair Team_DtR 2013
       </div>
-
-	</div><!-- container -->
-	
-	 <script src="js/jquery.js"></script>
-    <script src="js/bootstrap-transition.js"></script>
-    <script src="js/bootstrap-alert.js"></script>
-    <script src="js/bootstrap-modal.js"></script>
-    <script src="js/bootstrap-dropdown.js"></script>
-    <script src="js/bootstrap-scrollspy.js"></script>
-    <script src="js/bootstrap-tab.js"></script>
-    <script src="js/bootstrap-tooltip.js"></script>
-    <script src="js/bootstrap-popover.js"></script>
-    <script src="js/bootstrap-button.js"></script>
-    <script src="js/bootstrap-collapse.js"></script>
-    <script src="js/bootstrap-carousel.js"></script>
-    <script src="js/bootstrap-typeahead.js"></script>
-	
-</body>
+    </div><!-- container -->
+  </body>
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap-transition.js"></script>
+  <script src="js/bootstrap-alert.js"></script>
+  <script src="js/bootstrap-modal.js"></script>
+  <script src="js/bootstrap-dropdown.js"></script>
+  <script src="js/bootstrap-scrollspy.js"></script>
+  <script src="js/bootstrap-tab.js"></script>
+  <script src="js/bootstrap-tooltip.js"></script>
+  <script src="js/bootstrap-popover.js"></script>
+  <script src="js/bootstrap-button.js"></script>
+  <script src="js/bootstrap-collapse.js"></script>
+  <script src="js/bootstrap-carousel.js"></script>
+  <script src="js/bootstrap-typeahead.js"></script>
 </html>
