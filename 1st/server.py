@@ -1,16 +1,9 @@
-from flask import Flask, render_template, request
+from flask import render_template
 app = Flask(__name__)
 
 @app.route('/')
+def index():
+	return render_template('index.html')
 
-def init():
-    return render_template('index.html')
-
-@app.route('/made')
-
-def made():
-	error = None
-    if request.method == 'GET':
-        
-    
-    return render_template('index.html', error=error)
+if __name__ == '__main__':
+	app.run(debug=True)
