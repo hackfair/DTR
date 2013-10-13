@@ -1,65 +1,65 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<meta httpequiv="contenttype" content="text/html; charset=utf8" />
-		<script src="http://code.jquery.com/jquery1.10.2.min.js"></script>
-		<script type="text/javascript" src="js/three.min.js"></script>
-		<script type="text/javascript" src="js/Detector.js"></script>
-		<script type="text/javascript" src="js/OrbitControls.js"></script>
-		<script src="js/THREEx.KeyboardState.js"></script>
-		<script src="js/THREEx.FullScreen.js"></script>
-		<script src="js/THREEx.WindowResize.js"></script>
-		<title>Room</title>
-		<style type="text/css">
-			canvas {
-				width: 100%; height: 100%;
-				border: 1px solid #000000; }
+    <head>
+        <meta httpequiv="contenttype" content="text/html; charset=utf8" />
+        <script src="http://code.jquery.com/jquery1.10.2.min.js"></script>
+        <script type="text/javascript" src="js/three.min.js"></script>
+        <script type="text/javascript" src="js/Detector.js"></script>
+        <script type="text/javascript" src="js/OrbitControls.js"></script>
+        <script src="js/THREEx.KeyboardState.js"></script>
+        <script src="js/THREEx.FullScreen.js"></script>
+        <script src="js/THREEx.WindowResize.js"></script>
+        <title>Room</title>
+        <style type="text/css">
+            canvas {
+                width: 100%; height: 100%;
+                border: 1px solid #000000; }
 
-			#outer {
-				width: 452px; 
-				border: 1px solid #000000; }
+            #outer {
+                width: 452px; 
+                border: 1px solid #000000; }
 
-			#furniture {
-				border-bottom: 0;
-				display: none; }
+            #furniture {
+                border-bottom: 0;
+                display: none; }
 
-			#roomsize {
-				display: none; }
+            #roomsize {
+                display: none; }
 
-			.input {
-				padding: 10px 0 0 5px;
-				display: none; }
+            .input {
+                padding: 10px 0 0 5px;
+                display: none; }
 
-			.input button {
-				margin: 10px 30px 0 0;
-				float: right; }
+            .input button {
+                margin: 10px 30px 0 0;
+                float: right; }
 
-			.box {
-				width: 450px; height: 20px;
-				border-bottom: 1px solid #000000;
-				padding: 5px 0 5px 2px;
-				cursor: pointer; }
+            .box {
+                width: 450px; height: 20px;
+                border-bottom: 1px solid #000000;
+                padding: 5px 0 5px 2px;
+                cursor: pointer; }
 
-			#info {
-				color: #F0F0F0;
-				background: #2f2f2f; }
+            #info {
+                color: #F0F0F0;
+                background: #2f2f2f; }
 
-			.bwrap {
-			  	margin: 0.5em 0 0 0; }
+            .bwrap {
+                margin: 0.5em 0 0 0; }
 
-			button {
-				border: 0;
-				background: #000;
-				color: #fff;
-				padding: 0.2em 0.5em;
-				cursor: pointer;
-				borderradius: 3px; }
+            button {
+                border: 0;
+                background: #000;
+                color: #fff;
+                padding: 0.2em 0.5em;
+                cursor: pointer;
+                borderradius: 3px; }
 
-			button:hover {
-				background: #4f4f4f; }
-		</style>
-	</head>
-	<body>
+            button:hover {
+                background: #4f4f4f; }
+        </style>
+    </head>
+    <body>
 <!--  <div id="outer">
       <div id="controller" class="box">
         Controller ▲ 
@@ -78,182 +78,191 @@
       <div id="furniture" class="box">
         Furniture ▲
       </div>-->
-	<div id="room"></div>
-	<script type="text/javascript">
-		// standard global variables
-		var container, scene, camera, renderer, controls, stats;
-		var keyboard = new THREEx.KeyboardState();
-		var clock = new THREE.Clock();
-		var cuttentIdx = 0;  //  현재 화면 상에 보이는 object
-		var Objects = [];
-		var materials =[];
+    <div id="room"></div>
 
-		// 버튼
-		var Buttons = {
-			"create_chair" : {
-				idx : 1
-			}    
-		};
+    <!-- button test start -->
+    <div id="info">
+      <div id="btn_chair">
+        가구 : 
+        <button type="button" id="create_chair">의자</button>
+      </div>
+    </div>
+    <!-- button test over -->
+    <script type="text/javascript">
+        // standard global variables
+        var container, scene, camera, renderer, controls, stats;
+        var keyboard = new THREEx.KeyboardState();
+        var clock = new THREE.Clock();
+        var cuttentIdx = 0;  //  현재 화면 상에 보이는 object
+        var Objects = [];
+        var materials =[];
 
-		/*for (var b in Buttons)
-		initButtons(b);*/
-		// custom global variables
-		var mesh;
+        // 버튼
+        var Buttons = {
+            "create_chair" : {
+                idx : 1
+            }    
+        };
 
-		/* //재질
-		var texture = new THREE.Texture(generateTexture());
-		texture.needsUpdate = true;
+        for (var b in Buttons)
+        initButtons(b);
+        // custom global variables
+        var mesh;
 
-		var earthTexture = new THREE.Texture();
-		var loader = new THREE.ImageLoader();
+        /* //재질
+        var texture = new THREE.Texture(generateTexture());
+        texture.needsUpdate = true;
 
-		loader.addEventListener('load', function(event) {
+        var earthTexture = new THREE.Texture();
+        var loader = new THREE.ImageLoader();
 
-		earthTexture.image = event.content;
-		earthTexture.needsUpdate = true;
+        loader.addEventListener('load', function(event) {
 
-		}); */
+        earthTexture.image = event.content;
+        earthTexture.needsUpdate = true;
 
-		init();
-		animate();
-		// FUNCTIONS     
-		function init() {
-			// SCENE
-			scene = new THREE.Scene();
-			// CAMERA
-			var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
-			var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
-			camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
+        }); */
 
-			scene.add(camera);
+        init();
+        animate();
+        // FUNCTIONS     
+        function init() {
+            // SCENE
+            scene = new THREE.Scene();
 
-			camera.position.set(0,150,400);
-			camera.lookAt(scene.position);  
+            var geometry = new THREE.Geometry(); //add
 
-			// RENDERER
-			if ( Detector.webgl )
-				renderer = new THREE.WebGLRenderer( {antialias:true} );
-			else
-				renderer = new THREE.CanvasRenderer(); 
-				renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-				container = document.getElementById('room');
-				container.appendChild( renderer.domElement );
+            // CAMERA
+            var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+            var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+            camera = new THREE.PerspectiveCamera( VIEW_ANGLE, ASPECT, NEAR, FAR);
 
-			// EVENTS
-			THREEx.WindowResize(renderer, camera);
-			THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
+            scene.add(camera);
 
-			// CONTROLS
-			controls = new THREE.OrbitControls( camera, renderer.domElement );
+            camera.position.set(0,150,400);
+            camera.lookAt(scene.position);  
 
-			// LIGHT
-			var light = new THREE.PointLight(0xffffff);
-			light.position.set(100,250,100);
+            // RENDERER
+            if ( Detector.webgl )
+                renderer = new THREE.WebGLRenderer( {antialias:true} );
+            else
+                renderer = new THREE.CanvasRenderer(); 
+                renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+                container = document.getElementById('room');
+                container.appendChild( renderer.domElement );
 
-			scene.add(light);
+            // EVENTS
+            THREEx.WindowResize(renderer, camera);
+            THREEx.FullScreen.bindKey({ charCode : 'm'.charCodeAt(0) });
 
-			furniture();
-			
-			//방 모양 틀 만들기
-			var gridXZ = new THREE.GridHelper(100, 10);
-			gridXZ.setColors( new THREE.Color(0x006600), new THREE.Color(0x006600) );
-			gridXZ.position.set( 100,0,100 );
+            // CONTROLS
+            controls = new THREE.OrbitControls( camera, renderer.domElement );
 
-			scene.add(gridXZ);
+            // LIGHT
+            var light = new THREE.PointLight(0xffffff);
+            light.position.set(100,250,100);
 
-			var gridXY = new THREE.GridHelper(100, 10);
-			gridXY.position.set( 100,100,0 );
-			gridXY.rotation.x = Math.PI/2;
-			gridXY.setColors( new THREE.Color(0x000066), new THREE.Color(0x000066) );
+            scene.add(light);
 
-			scene.add(gridXY);
+            furniture();
+            
+            //방 모양 틀 만들기
+            var gridXZ = new THREE.GridHelper(100, 10);
+            gridXZ.setColors( new THREE.Color(0x006600), new THREE.Color(0x006600) );
+            gridXZ.position.set( 100,0,100 );
 
-			var gridYZ = new THREE.GridHelper(100, 10);
-			gridYZ.position.set( 0,100,100 );
-			gridYZ.rotation.z = Math.PI/2;
-			gridYZ.setColors( new THREE.Color(0x660000), new THREE.Color(0x660000) );
+            scene.add(gridXZ);
 
-			scene.add(gridYZ);
-		}
+            var gridXY = new THREE.GridHelper(100, 10);
+            gridXY.position.set( 100,100,0 );
+            gridXY.rotation.x = Math.PI/2;
+            gridXY.setColors( new THREE.Color(0x000066), new THREE.Color(0x000066) );
 
-		function furniture () {
+            scene.add(gridXY);
 
-			// 상자 생성 ==================================
+            var gridYZ = new THREE.GridHelper(100, 10);
+            gridYZ.position.set( 0,100,100 );
+            gridYZ.rotation.z = Math.PI/2;
+            gridYZ.setColors( new THREE.Color(0x660000), new THREE.Color(0x660000) );
 
-			var geometry = new THREE.CubeGeometry( 100, 100, 100 );
+            scene.add(gridYZ);
 
-			var texture = THREE.ImageUtils.loadTexture( 'textures/wood.jpg' );
-			texture.anisotropy = renderer.getMaxAnisotropy();
+            furniture();
+          }
 
-			var material = new THREE.MeshBasicMaterial( { map: texture } );
+        function furniture () {
 
-			mesh = new THREE.Mesh( geometry, material );
-			scene.add( mesh );
+            // 상자 생성 ==================================
 
-			mesh.position.set (50, 50, 50);
+            var geometry = new THREE.CubeGeometry( 100, 100, 100 );
+            var texture = THREE.ImageUtils.loadTexture( 'textures/wood.jpg' );
 
-			mesh.visible = false;
-		}
-		/*
-		function initButtons (btn){
+            texture.anisotropy = renderer.getMaxAnisotropy();
 
-		$(btn).addEventListener('click', function() {
-		if(btn == "create_chair"){
+            var material = new THREE.MeshBasicMaterial( { map: texture } );
+            mesh = new THREE.Mesh( geometry, material );
 
-		if(!mesh.visible)
-		mesh.visible = true;
-		else
-		mesh.visible = false;
+            scene.add( mesh );
 
-		}
-		}, false);
+            mesh.position.set (50, 50, 50);
+            mesh.visible = false;
+        }
+        
+        function initButtons (btn){
+          $(btn).addEventListener('click', function() {
+            if(btn == "create_chair"){
+              if(!mesh.visible)
+                mesh.visible = true;
+              else
+                mesh.visible = false;
+            }
+          }, false);
+        }
 
-		}*/
+        function animate() {
+            requestAnimationFrame( animate );
+            render();    
+            update();
+        }
 
-		function animate() {
-			requestAnimationFrame( animate );
-			render();    
-			update();
-		}
+        function update() {
+        // if ( keyboard.pressed("z") ) 
+        // {  // do something   
+        // }
+            controls.update();
+            //stats.update();
+        }
 
-		function update() {
-		// if ( keyboard.pressed("z") ) 
-		// {  // do something   
-		// }
-			controls.update();
-			//stats.update();
-		}
+        function render() {
+            renderer.render( scene, camera );
+        }
 
-		function render() {
-			renderer.render( scene, camera );
-		}
+        //controller
+        $(document).ready(function(){
+            $('#controller').click(function() {
+                $('#furniture').toggle();
+                $('#roomsize').toggle();
+                $('#furniture').height('20px');
+                $('#roomsize').height('20px');
+                $('.input').css('display','none');
+            });
 
-		//controller
-		$(document).ready(function(){
-			$('#controller').click(function() {
-				$('#furniture').toggle();
-				$('#roomsize').toggle();
-				$('#furniture').height('20px');
-				$('#roomsize').height('20px');
-				$('.input').css('display','none');
-			});
+            $('#roomsize').click(function() {
+                $('#furniture').height('20px');
+                $('#roomsize').height('100px');
+                $('.input').css('display','block');
+            });
 
-			$('#roomsize').click(function() {
-				$('#furniture').height('20px');
-				$('#roomsize').height('100px');
-				$('.input').css('display','block');
-			});
+            $('#furniture').click(function() {
+                $('#furniture').height('500px');
+                $('#roomsize').height('20px');
+                $('.input').css('display','none');
+            });
+        });
 
-			$('#furniture').click(function() {
-				$('#furniture').height('500px');
-				$('#roomsize').height('20px');
-				$('.input').css('display','none');
-			});
-		});
-
-		function $(id){
-			return document.getElementById(id);
-		}
-	</script>
-	</body>
+        function $(id){
+            return document.getElementById(id);
+        }
+    </script>
+    </body>
  </html>

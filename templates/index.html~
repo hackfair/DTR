@@ -3,8 +3,8 @@
   <head>
       <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
       <title>DtR</title>
-      <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen" />
-      <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css" />
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" media="screen" />
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-responsive.css') }}" />
       <style type="text/css">
         * {
           color: #A6A6A6;
@@ -83,11 +83,14 @@
                   <li><a href="#members">멤버 소개</a></li>
                   <li><a href="#usage">사용방법</a></li>
               </ul>
-              <form class="navbar-form pull-right">
-                <input class="span2" type="text" placeholder="ID">
-                <input class="span2" type="password" placeholder="Password">
-                <button type="submit" class="btn">Login</button>
-              </form>
+              <div id="form" class="navbar-form pull-right"><form method="post">
+                {% macro input(name, value='', type='text') -%}
+                <input type="{{ type }}" name="{{ name }}" value="{{ value|e }}" size="{{ size }}">
+                {%- endmacro %}
+                <input class="span2" type="text" name="id" placeholder="ID">
+                <input class="span2" type="password" name="password" placeholder="Password">
+                <input type="submit" class="btn" value="Login" />
+            </form></div>
             </div><!--/.nav-collapse -->
           </div>
         </div>
@@ -108,7 +111,7 @@
           <div class="first">
             <div class="name">최지현</div>
             <ul>
-              <img src="images/jihyun.jpg" />
+              <img src="/static/images/jihyun.jpg" />
             <li>경력</li>
             <ol>
             <li><p>Samsung SDS sGen Club ICT 개발</p></li>
@@ -129,7 +132,7 @@
           <div class="second">
             <div class="name">이현주</div>
             <ul>
-              <img src="images/hyunjoo.jpg" />
+              <img src="/static/images/hyunjoo.jpg" />
             <li>경력</li>
             <ol>
             <li><p>Samsung SDS sGen Club ICT 개발</p></li>
@@ -158,17 +161,4 @@
         </div>
       </div>
   </body>
-  <script src="js/jquery.js"></script>
-  <script src="js/bootstrap-transition.js"></script>
-  <script src="js/bootstrap-alert.js"></script>
-  <script src="js/bootstrap-modal.js"></script>
-  <script src="js/bootstrap-dropdown.js"></script>
-  <script src="js/bootstrap-scrollspy.js"></script>
-  <script src="js/bootstrap-tab.js"></script>
-  <script src="js/bootstrap-tooltip.js"></script>
-  <script src="js/bootstrap-popover.js"></script>
-  <script src="js/bootstrap-button.js"></script>
-  <script src="js/bootstrap-collapse.js"></script>
-  <script src="js/bootstrap-carousel.js"></script>
-  <script src="js/bootstrap-typeahead.js"></script>
 </html>
