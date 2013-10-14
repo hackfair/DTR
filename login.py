@@ -2,14 +2,14 @@ from db import DBConnector
 
 class Login(object):
     def __init__(self):
-        self.db = DBConnector("127.0.0.1", 3306, "root", "test", "dtr")
+        self.db = DBConnector("127.0.0.1", 3306, "root", "dlstodrmsid", "dtr")
 
     def find(self, identifier, password):
         with self.db.connect() as cursor:
             cursor.execute(
                     """
                         SELECT *
-                        FROM dtr
+                        FROM user
                                 WHERE identifier = %s
                                      AND password = %s
                     """,

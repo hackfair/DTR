@@ -1,4 +1,9 @@
 *.pyc
+*.md~
 *.swp
+*.py~
 *.egg-info
 .DS_Store
+*.gitignore~
+MySQL-python-1.2.4/
+venv/
