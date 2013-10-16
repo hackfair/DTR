@@ -85,6 +85,7 @@
       <div id="btn_chair">
         가구 : 
         <button type="button" id="create_chair">의자</button>
+        <button type="button" id="textures">벽지</button>
       </div>
     </div>
     <!-- button test over -->
@@ -101,7 +102,10 @@
         var Buttons = {
             "create_chair" : {
                 idx : 1
-            }    
+            },
+            "textures" : {
+                idx : 2
+            }
         };
 
         for (var b in Buttons)
@@ -163,8 +167,6 @@
             light.position.set(100,250,100);
 
             scene.add(light);
-
-            furniture();
             
             //방 모양 틀 만들기
             var gridXZ = new THREE.GridHelper(100, 10);
@@ -188,6 +190,7 @@
             scene.add(gridYZ);
 
             furniture();
+            textures();
           }
 
         function furniture () {
@@ -207,16 +210,52 @@
             mesh.position.set (50, 50, 50);
             mesh.visible = false;
         }
+
+        //벽지 입히기 
+        //(5, 5) 정도로 그리고 그것이 gridXZ, gridYZ에 나타나야 함
+        function textures() {
+            var geometry = new THREE.CubeGeometry( 0, 200, 200 ); //CubeGeometry(width, height, depth) = (z, y, x)
+            var texture = THREE.ImageUtils.loadTexture( 'textures/first.jpg' );
+
+            texture.anisotropy = renderer.getMaxAnisotropy();
+
+            var material = new THREE.MeshBasicMaterial( { map: texture } );
+            mesh = new THREE.Mesh( geometry, material );
+
+            scene.add( mesh );
+
+            mesh.position.set (0, 100, 100);
+            mesh.visible = false;
+
+            var geometryYZ = new THREE.CubeGeometry( 200, 200, 0 ); //CubeGeometry(width, height, depth) = (z, y, x)
+            var texture = THREE.ImageUtils.loadTexture( 'textures/first.jpg' );
+
+            texture.anisotropy = renderer.getMaxAnisotropy();
+
+            var material = new THREE.MeshBasicMaterial( { map: texture } );
+            mesh = new THREE.Mesh( geometryYZ, material );
+
+            scene.add( mesh );
+
+            mesh.position.set (100, 100, 0);
+            mesh.visible = false;
+        }
         
         function initButtons (btn){
           $(btn).addEventListener('click', function() {
             if(btn == "create_chair"){
-              if(!mesh.visible)
-                mesh.visible = true;
-              else
+                if(!mesh.visible)
+                    mesh.visible = true;
+                else
+                    mesh.visible = false;
+                }
+            else if(btn == "textures"){
+                if(!mesh.visible)
+                    mesh.visible = true;
+                else
                 mesh.visible = false;
-            }
-          }, false);
+                }
+            }, false);
         }
 
         function animate() {
