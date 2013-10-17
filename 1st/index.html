@@ -86,6 +86,7 @@
         가구 : 
         <button type="button" id="create_chair">의자</button>
         <button type="button" id="textures">벽지</button>
+        <button type="button" id="floors">장판</button>
       </div>
     </div>
     <!-- button test over -->
@@ -104,6 +105,9 @@
                 idx : 1
             },
             "textures" : {
+                idx : 2
+            },
+            "floors" : {
                 idx : 2
             }
         };
@@ -191,6 +195,7 @@
 
             furniture();
             textures();
+            floors();
           }
 
         function furniture () {
@@ -212,7 +217,6 @@
         }
 
         //벽지 입히기 
-        //(5, 5) 정도로 그리고 그것이 gridXZ, gridYZ에 나타나야 함
         function textures() {
             var geometryXZ = new THREE.CubeGeometry( 0, 200, 200 ); //CubeGeometry(width, height, depth) = (z, y, x)
             var textureXZ = THREE.ImageUtils.loadTexture( 'textures/first.jpg' );
@@ -240,6 +244,21 @@
             meshYZ.position.set (100, 100, 0);
             meshYZ.visible = false;
         }
+
+        function floors() {
+            var geometryXY = new THREE.CubeGeometry( 200, 0, 200 ); //CubeGeometry(width, height, depth) = (z, y, x)
+            var textureXY = THREE.ImageUtils.loadTexture( 'textures/floor.jpg' );
+
+            textureXY.anisotropy = renderer.getMaxAnisotropy();
+
+            var materialXY = new THREE.MeshBasicMaterial( { map: textureXY } );
+            meshXY = new THREE.Mesh( geometryXY, materialXY );
+
+            scene.add( meshXY );
+
+            meshXY.position.set (100, 0, 100);
+            meshXY.visible = false;
+        }
         
         function initButtons (btn){
             $(btn).addEventListener('click', function() {
@@ -259,31 +278,14 @@
                         meshYZ.visible = false;
                     }
                 }
+                else if(btn == "floors") {
+                    if(!meshXY.visible)
+                        meshXY.visible = true;
+                    else
+                        meshXY.visible = false;
+                }
             }, false);
         }
-
-        // function initButtons() {
-        //     $('create_chair').click(function() {
-        //         if(!mesh.visible) {
-        //             mesh.visible = true;
-        //             console.log('test1');
-        //         }
-        //         else {
-        //             mesh.visible = false;
-        //             console.log('chair visible');
-        //         }
-        //     });
-        //     $('textures').click(function() {
-        //         if(!meshXZ.visible) {
-        //             meshXZ.visible = true;
-        //             console.log('texture invisible');
-        //         }
-        //         else {
-        //             meshXZ.visible = false;
-        //             console.log('texture visible');
-        //         }
-        //     });
-        // }
             
 
         function animate() {
