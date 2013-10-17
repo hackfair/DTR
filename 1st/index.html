@@ -98,7 +98,7 @@
         var Objects = [];
         var materials =[];
 
-        // 버튼
+        //버튼
         var Buttons = {
             "create_chair" : {
                 idx : 1
@@ -110,8 +110,8 @@
 
         for (var b in Buttons)
         initButtons(b);
-        // custom global variables
-        var mesh;
+        // // custom global variables
+        // var mesh;
 
         /* //재질
         var texture = new THREE.Texture(generateTexture());
@@ -214,49 +214,77 @@
         //벽지 입히기 
         //(5, 5) 정도로 그리고 그것이 gridXZ, gridYZ에 나타나야 함
         function textures() {
-            var geometry = new THREE.CubeGeometry( 0, 200, 200 ); //CubeGeometry(width, height, depth) = (z, y, x)
-            var texture = THREE.ImageUtils.loadTexture( 'textures/first.jpg' );
+            var geometryXZ = new THREE.CubeGeometry( 0, 200, 200 ); //CubeGeometry(width, height, depth) = (z, y, x)
+            var textureXZ = THREE.ImageUtils.loadTexture( 'textures/first.jpg' );
 
-            texture.anisotropy = renderer.getMaxAnisotropy();
+            textureXZ.anisotropy = renderer.getMaxAnisotropy();
 
-            var material = new THREE.MeshBasicMaterial( { map: texture } );
-            mesh = new THREE.Mesh( geometry, material );
+            var materialXZ = new THREE.MeshBasicMaterial( { map: textureXZ } );
+            meshXZ = new THREE.Mesh( geometryXZ, materialXZ );
 
-            scene.add( mesh );
+            scene.add( meshXZ );
 
-            mesh.position.set (0, 100, 100);
-            mesh.visible = false;
+            meshXZ.position.set (0, 100, 100);
+            meshXZ.visible = false;
 
             var geometryYZ = new THREE.CubeGeometry( 200, 200, 0 ); //CubeGeometry(width, height, depth) = (z, y, x)
-            var texture = THREE.ImageUtils.loadTexture( 'textures/first.jpg' );
+            var textureYZ = THREE.ImageUtils.loadTexture( 'textures/first.jpg' );
 
-            texture.anisotropy = renderer.getMaxAnisotropy();
+            textureYZ.anisotropy = renderer.getMaxAnisotropy();
 
-            var material = new THREE.MeshBasicMaterial( { map: texture } );
-            mesh = new THREE.Mesh( geometryYZ, material );
+            var materialYZ = new THREE.MeshBasicMaterial( { map: textureYZ } );
+            meshYZ = new THREE.Mesh( geometryYZ, materialYZ );
 
-            scene.add( mesh );
+            scene.add( meshYZ );
 
-            mesh.position.set (100, 100, 0);
-            mesh.visible = false;
+            meshYZ.position.set (100, 100, 0);
+            meshYZ.visible = false;
         }
         
         function initButtons (btn){
-          $(btn).addEventListener('click', function() {
-            if(btn == "create_chair"){
-                if(!mesh.visible)
-                    mesh.visible = true;
-                else
-                    mesh.visible = false;
+            $(btn).addEventListener('click', function() {
+                if(btn == "create_chair"){
+                    if(!mesh.visible)
+                        mesh.visible = true;
+                    else
+                        mesh.visible = false;
                 }
-            else if(btn == "textures"){
-                if(!mesh.visible)
-                    mesh.visible = true;
-                else
-                mesh.visible = false;
+                else if(btn == "textures"){
+                    if(!meshXZ.visible || !meshYZ.visible) {
+                        meshXZ.visible = true;
+                        meshYZ.visible = true;
+                    }
+                    else {
+                        meshXZ.visible = false;
+                        meshYZ.visible = false;
+                    }
                 }
             }, false);
         }
+
+        // function initButtons() {
+        //     $('create_chair').click(function() {
+        //         if(!mesh.visible) {
+        //             mesh.visible = true;
+        //             console.log('test1');
+        //         }
+        //         else {
+        //             mesh.visible = false;
+        //             console.log('chair visible');
+        //         }
+        //     });
+        //     $('textures').click(function() {
+        //         if(!meshXZ.visible) {
+        //             meshXZ.visible = true;
+        //             console.log('texture invisible');
+        //         }
+        //         else {
+        //             meshXZ.visible = false;
+        //             console.log('texture visible');
+        //         }
+        //     });
+        // }
+            
 
         function animate() {
             requestAnimationFrame( animate );
@@ -297,6 +325,8 @@
                 $('#roomsize').height('20px');
                 $('.input').css('display','none');
             });
+
+            initButtons();
         });
 
         function $(id){
