@@ -30,6 +30,10 @@
                 border-bottom: 0;
                 clear: both; }
 
+            #furniture img {
+                padding: 20px 0 0 20px;
+            }
+
             .furniture-header {
                 width: 380px;
                 clear: both; }
@@ -43,6 +47,15 @@
                 display: block;
                 clear: both; }
 
+            .wallpaper-box img {
+                width: 100px; height: 100px;
+                cursor: pointer;
+            }
+
+            .wallpaper-box button {
+                float: right;
+                margin: 10px 10px 0 0; }
+
             .flooring {
                 width: 40px; height: 15px;
                 float: left;
@@ -51,6 +64,14 @@
             .flooring-box {
                 display: none;
                 clear: both; }
+
+            .flooring-box button {
+                float: right;
+                margin: 10px 10px 0 0; }
+
+            .flooring-box img {
+                width: 100px; height: 100px;
+                cursor: pointer; }
 
             .chair {
                 width: 40px; height: 15px;
@@ -131,10 +152,28 @@
                     </div>
                 </div>
                 <div class="wallpaper-box">
-                    wallpaper
+                    <img src="textures/first.jpg" />
+                    <img src="textures/second.jpg" />
+                    <img src="textures/Textures_wallpapers_1.jpg" />
+                    <img src="textures/Textures_wallpapers_3.jpg" />
+                    <img src="textures/Textures_wallpapers_8.jpg" />
+                    <img src="textures/Textures_wallpapers_12.jpg" />
+                    <img src="textures/Textures_wallpapers_14.jpg" />
+                    <img src="textures/Textures_wallpapers_2.jpg" />
+                    <img src="textures/Textures_wallpapers_9.jpg" />
+                    <button>more</button>
                 </div>
                 <div class="flooring-box">
-                    floor
+                    <img src="textures/floor.jpg" />
+                    <img src="textures/Textures_floor_17.jpg" />
+                    <img src="textures/Textures_floor_258.jpg" />
+                    <img src="textures/Textures_floor_456.jpg" />
+                    <img src="http://placehold.it/100x100" />
+                    <img src="http://placehold.it/100x100" />
+                    <img src="http://placehold.it/100x100" />
+                    <img src="http://placehold.it/100x100" />
+                    <img src="http://placehold.it/100x100" />
+                    <button>more</button>
                 </div>
                 <div class="chair-box">
                     chair
@@ -266,7 +305,6 @@
             function furniture () {
 
                 // 상자 생성 ==================================
-
                 var geometry = new THREE.CubeGeometry( 100, 100, 100 );
                 var texture = THREE.ImageUtils.loadTexture( 'textures/wood.jpg' );
 
