@@ -9,6 +9,7 @@
         <script src="/static/js/THREEx.KeyboardState.js"></script>
         <script src="/static/js/THREEx.FullScreen.js"></script>
         <script src="/static/js/THREEx.WindowResize.js"></script>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" media="screen" />
         <title>Room</title>
         <style type="text/css">
             .row {
@@ -28,20 +29,28 @@
                 float: right; }
 
             #furniture {
-                height: 500px;
-                border-top: 1px solid #000000;
+                height: 590px;
+                --border-top: 1px solid #000000;
                 border-bottom: 0;
                 clear: both; }
 
                 #furniture img {
-                    padding: 20px 0 0 20px; }
+                    padding: 20px 0 0 15px; }
 
                 .furniture-header {
                     width: 380px;
+                    height: 50px;
+                    border-bottom: 1px solid #000000;
                     clear: both; }
 
+                #furniture button {
+                    margin-left: 20px;
+                }
+
             .wallpaper {
-                width: 40px; height: 15px;
+                height: 50px;
+                padding-top: 10px;
+                text-align: center;
                 float: left;
                 cursor: pointer; }
 
@@ -61,7 +70,9 @@
                     margin: 20px 0 0 20px; }
 
             .flooring {
-                width: 40px; height: 15px;
+                width: 95px; height: 50px;
+                padding-top: 10px;
+                text-align: center;
                 float: left;
                 cursor: pointer; }
 
@@ -87,7 +98,9 @@
                     margin: 20px 0 0 20px; }
 
             .chair {
-                width: 40px; height: 15px;
+                width: 95px; height: 50px;
+                padding-top: 10px;
+                text-align: center;
                 float: left;
                 cursor: pointer; }
 
@@ -96,7 +109,9 @@
                 clear: both; }
 
             .desk {
-                width: 40px; height: 15px;
+                width: 95px; height: 50px;
+                padding-top: 10px;
+                text-align: center;
                 float: left; 
                 cursor: pointer; }
 
@@ -140,6 +155,7 @@
         <div class="row">
             <div id="room"></div>
             <div id="outer">
+                <!--
                 <div id="roomsize" class="box">
                     Roomsize
                     <div class="input">
@@ -147,23 +163,24 @@
                             <input type="text" name="width" id="width" size="15" maxlength="3" placeholder="가로 길이" /> x 
                             <input type="text" name="leng" id="leng" size="15" maxlength="3" placeholder="세로 길이" /> x
                             <input type="text" name="height" id="height" size="15" maxlength="3" placeholder="높이" />
-                            <button type="button">만들기</button>
+                            <button type="submit">만들기</button>
                         </form>
                     </div>
                 </div>
+            -->
                 <div id="furniture" class="box">
                     <div class="furniture-header">
                         <div class="wallpaper">
-                            벽지
+                            <button type="button" class="btn btn-info">벽지</button>
                         </div>
                         <div class="flooring">
-                            장판
+                            <button type="button" class="btn btn-info">장판</button>
                         </div>
                         <div class="chair">
-                            의자
+                            <button type="button" class="btn btn-info">의자</button>
                         </div>
                         <div class="desk">
-                            책상
+                            <button type="button" class="btn btn-info">책상</button>
                         </div>
                     </div>
                     <div class="wallpaper-box">
@@ -176,14 +193,22 @@
                         <img src="/static/textures/Textures_wallpapers_14.jpg" id="wallpaper" />
                         <img src="/static/textures/Textures_wallpapers_2.jpg" id="wallpaper" />
                         <img src="/static/textures/Textures_wallpapers_9.jpg" id="wallpaper" />
-                        <input type="file" name="wallpaper-file" id="wallpaper-file" />
+                        <img src="http://placehold.it/100x100" id="wallpaper" />
+                        <img src="http://placehold.it/100x100" id="wallpaper" />
+                        <img src="http://placehold.it/100x100" id="wallpaper" />
+                        <!--<input type="file" name="wallpaper-file" id="wallpaper-file" />-->
                     </div>
                     <div class="flooring-box">
                         <img src="/static/textures/floor.jpg" id="floor" />
                         <img src="/static/textures/Textures_floor_17.jpg" id="floor" />
                         <img src="/static/textures/Textures_floor_258.jpg" id="floor" />
-                        <div id="previewId"></div>
-                        <input type="file" name="floor-file" id="floor-file" onchange="previewImage(this,'previewId')"/>
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <!--<input type="file" name="floor-file" id="floor-file" onchange="previewImage(this,'previewId')"/>-->
                     </div>
                     <div class="chair-box">
                         <img src="http://placehold.it/100x100" id="chair" />
@@ -195,7 +220,10 @@
                         <img src="http://placehold.it/100x100" id="chair" />
                         <img src="http://placehold.it/100x100" id="chair" />
                         <img src="http://placehold.it/100x100" id="chair" />
-                        <input type="file" name="chair-file" />
+                        <img src="http://placehold.it/100x100" id="chair" />
+                        <img src="http://placehold.it/100x100" id="chair" />
+                        <img src="http://placehold.it/100x100" id="chair" />
+                        <!--<input type="file" name="chair-file" />-->
                     </div>
                     <div class="desk-box">
                         <img src="http://placehold.it/100x100" id="desk" />
@@ -207,7 +235,10 @@
                         <img src="http://placehold.it/100x100" id="desk" />
                         <img src="http://placehold.it/100x100" id="desk" />
                         <img src="http://placehold.it/100x100" id="desk" />
-                        <input type="file" name="file" />
+                        <img src="http://placehold.it/100x100" id="desk" />
+                        <img src="http://placehold.it/100x100" id="desk" />
+                        <img src="http://placehold.it/100x100" id="desk" />
+                        <!--<input type="file" name="file" />-->
                     </div>
                 </div>
             </div>
@@ -264,21 +295,21 @@
                     scene.add(light);
                     
                     //방 모양 틀 만들기
-                    var gridXZ = new THREE.GridHelper(100, 10);
+                    var gridXZ = new THREE.GridHelper(200, 10); //cm로 가정
                     gridXZ.setColors( new THREE.Color(0x006600), new THREE.Color(0x006600) );
-                    gridXZ.position.set( 100,0,100 );
+                    gridXZ.position.set( 200,0,200 );
 
                     scene.add(gridXZ);
 
-                    var gridXY = new THREE.GridHelper(100, 10);
-                    gridXY.position.set( 100,100,0 );
+                    var gridXY = new THREE.GridHelper(200, 10); //cm로 가정
+                    gridXY.position.set( 200,200,0 );
                     gridXY.rotation.x = Math.PI/2;
                     gridXY.setColors( new THREE.Color(0x000066), new THREE.Color(0x000066) );
 
                     scene.add(gridXY);
 
-                    var gridYZ = new THREE.GridHelper(100, 10);
-                    gridYZ.position.set( 0,100,100 );
+                    var gridYZ = new THREE.GridHelper(200, 10); //cm로 가정
+                    gridYZ.position.set( 0,200,200 );
                     gridYZ.rotation.z = Math.PI/2;
                     gridYZ.setColors( new THREE.Color(0x660000), new THREE.Color(0x660000) );
 
@@ -305,7 +336,7 @@
 
                 function furniture () {
                     // 상자 생성 ==================================
-                    var geometry = new THREE.CubeGeometry( 100, 100, 100 );
+                    var geometry = new THREE.CubeGeometry( 400, 400, 400 );
                     var texture = THREE.ImageUtils.loadTexture( '/static/textures/wood.jpg' );
 
                     texture.anisotropy = renderer.getMaxAnisotropy();
@@ -315,7 +346,7 @@
 
                     scene.add( mesh );
 
-                    mesh.position.set (50, 50, 50);
+                    mesh.position.set (200, 200, 200);
                     mesh.visible = false;
                 }
 
@@ -324,7 +355,7 @@
                     var target = event.target;
                     var src = event.target.src;
 
-                    var geometryXZ = new THREE.CubeGeometry( 0, 200, 200 ); //CubeGeometry(width, height, depth) = (z, y, x)
+                    var geometryXZ = new THREE.CubeGeometry( 0, 400, 400 ); //CubeGeometry(width, height, depth) = (z, y, x)
                     var textureXZ = THREE.ImageUtils.loadTexture( src );
 
                     textureXZ.anisotropy = renderer.getMaxAnisotropy();
@@ -336,10 +367,10 @@
 
                     scene.add( meshXZ );
 
-                    meshXZ.position.set (0, 100, 100);
+                    meshXZ.position.set (0, 200, 200);
                     if(!meshXZ.visible) meshXZ.visible = true;
 
-                    var geometryYZ = new THREE.CubeGeometry( 200, 200, 0 ); //CubeGeometry(width, height, depth) = (z, y, x)
+                    var geometryYZ = new THREE.CubeGeometry( 400, 400, 0 ); //CubeGeometry(width, height, depth) = (z, y, x)
                     var textureYZ = THREE.ImageUtils.loadTexture( src );
 
                     textureYZ.anisotropy = renderer.getMaxAnisotropy();
@@ -351,7 +382,7 @@
 
                     scene.add( meshYZ );
 
-                    meshYZ.position.set (100, 100, 0);
+                    meshYZ.position.set (200, 200, 0);
                     if(!meshYZ.visible) meshYZ.visible = true;
                 }
 
@@ -359,7 +390,7 @@
                     var target = event.target;
                     var src = event.target.src;
 
-                    var geometryXY = new THREE.CubeGeometry( 200, 0, 200 ); //CubeGeometry(width, height, depth) = (z, y, x)
+                    var geometryXY = new THREE.CubeGeometry( 400, 0, 400 ); //CubeGeometry(width, height, depth) = (z, y, x)
                     var textureXY = THREE.ImageUtils.loadTexture( src );
 
                     textureXY.anisotropy = renderer.getMaxAnisotropy();
@@ -373,7 +404,7 @@
 
                     scene.add( meshXY );
 
-                    meshXY.position.set (100, 0, 100);
+                    meshXY.position.set (200, 0, 200);
                     if(!meshXY.visible) meshXY.visible = true;
                 }
 
@@ -465,30 +496,32 @@
 
                 //controller
                 $(document).ready(function() {
-                    $('.wallpaper').click(function() {
+                    $('.wallpaper button').click(function() {
                         $('.wallpaper-box').css('display', 'block');
                         $('.flooring-box').css('display', 'none');
                         $('.chair-box').css('display', 'none');
                         $('.desk-box').css('display', 'none');
                     });
-                    $('.flooring').click(function() {
+                    $('.flooring button').click(function() {
                         $('.wallpaper-box').css('display', 'none');
                         $('.flooring-box').css('display', 'block');
                         $('.chair-box').css('display', 'none');
                         $('.desk-box').css('display', 'none'); 
                     });
-                    $('.chair').click(function() {
+                    $('.chair button').click(function() {
                         $('.wallpaper-box').css('display', 'none');
                         $('.flooring-box').css('display', 'none');
                         $('.chair-box').css('display', 'block');
                         $('.desk-box').css('display', 'none');
                     });
-                    $('.desk').click(function() {
+                    $('.desk button').click(function() {
                         $('.wallpaper-box').css('display', 'none');
                         $('.flooring-box').css('display', 'none');
                         $('.chair-box').css('display', 'none');
                         $('.desk-box').css('display', 'block');
                     });
+
+                    $
                 });
             </script>
         </div>
