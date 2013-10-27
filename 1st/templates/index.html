@@ -288,11 +288,8 @@
 
                         if(target.id=='wallpaper') {
                             textures();
-                            getFurniture();
-
                         } else if(target.id=='floor') {
                             floors();
-                            getFurniture();
                         }
                     });
 
@@ -300,11 +297,6 @@
                     //     var src = event.target.src;
                     //     alert(src);
                     // });
-
-                    // furniture();
-                    // textures();
-                    // floors();
-                    // getFurniture();
                   }
 
                 function furniture () {
@@ -325,86 +317,60 @@
 
                 //벽지 입히기 
                 function textures() {
-                    $( "img" ).click(function( event ) {
-                        var target = event.target;
-                        var src = event.target.src;
+                    var target = event.target;
+                    var src = event.target.src;
 
-                        var geometryXZ = new THREE.CubeGeometry( 0, 200, 200 ); //CubeGeometry(width, height, depth) = (z, y, x)
-                        var textureXZ = THREE.ImageUtils.loadTexture( src );
+                    var geometryXZ = new THREE.CubeGeometry( 0, 200, 200 ); //CubeGeometry(width, height, depth) = (z, y, x)
+                    var textureXZ = THREE.ImageUtils.loadTexture( src );
 
-                        textureXZ.anisotropy = renderer.getMaxAnisotropy();
+                    textureXZ.anisotropy = renderer.getMaxAnisotropy();
 
-                        if( meshXZ != null ) scene.remove( meshXZ );
+                    if( meshXZ != null ) scene.remove( meshXZ );
 
-                        var materialXZ = new THREE.MeshBasicMaterial( { map: textureXZ } );
-                        meshXZ = new THREE.Mesh( geometryXZ, materialXZ );
+                    var materialXZ = new THREE.MeshBasicMaterial( { map: textureXZ } );
+                    meshXZ = new THREE.Mesh( geometryXZ, materialXZ );
 
-                        scene.add( meshXZ );
+                    scene.add( meshXZ );
 
-                        meshXZ.position.set (0, 100, 100);
-                        meshXZ.visible = false;
+                    meshXZ.position.set (0, 100, 100);
+                    if(!meshXZ.visible) meshXZ.visible = true;
 
-                        var geometryYZ = new THREE.CubeGeometry( 200, 200, 0 ); //CubeGeometry(width, height, depth) = (z, y, x)
-                        var textureYZ = THREE.ImageUtils.loadTexture( src );
+                    var geometryYZ = new THREE.CubeGeometry( 200, 200, 0 ); //CubeGeometry(width, height, depth) = (z, y, x)
+                    var textureYZ = THREE.ImageUtils.loadTexture( src );
 
-                        textureYZ.anisotropy = renderer.getMaxAnisotropy();
+                    textureYZ.anisotropy = renderer.getMaxAnisotropy();
 
-                        if( meshYZ != null ) scene.remove( meshYZ );
+                    if( meshYZ != null ) scene.remove( meshYZ );
 
-                        var materialYZ = new THREE.MeshBasicMaterial( { map: textureYZ } );
-                        meshYZ = new THREE.Mesh( geometryYZ, materialYZ );
+                    var materialYZ = new THREE.MeshBasicMaterial( { map: textureYZ } );
+                    meshYZ = new THREE.Mesh( geometryYZ, materialYZ );
 
-                        scene.add( meshYZ );
+                    scene.add( meshYZ );
 
-                        meshYZ.position.set (100, 100, 0);
-                        meshYZ.visible = false;
-                    });
+                    meshYZ.position.set (100, 100, 0);
+                    if(!meshYZ.visible) meshYZ.visible = true;
                 }
 
                 function floors() {
-                    $( "img" ).click(function( event ) {
-                        var target = event.target;
-                        var src = event.target.src;
+                    var target = event.target;
+                    var src = event.target.src;
 
-                        var geometryXY = new THREE.CubeGeometry( 200, 0, 200 ); //CubeGeometry(width, height, depth) = (z, y, x)
-                        var textureXY = THREE.ImageUtils.loadTexture( src );
+                    var geometryXY = new THREE.CubeGeometry( 200, 0, 200 ); //CubeGeometry(width, height, depth) = (z, y, x)
+                    var textureXY = THREE.ImageUtils.loadTexture( src );
 
-                        textureXY.anisotropy = renderer.getMaxAnisotropy();
+                    textureXY.anisotropy = renderer.getMaxAnisotropy();
 
-                        if( meshXY != null ) scene.remove( meshXY );
+                    if( meshXY != null ) scene.remove( meshXY );
 
-                        var materialXY = new THREE.MeshBasicMaterial( { map: textureXY } );
-                        meshXY = new THREE.Mesh( geometryXY, materialXY );
+                    var materialXY = new THREE.MeshBasicMaterial( { map: textureXY } );
+                    meshXY = new THREE.Mesh( geometryXY, materialXY );
 
-                        //if(!meshXY.visible) meshXY.visible = true;
+                    //if(!meshXY.visible) meshXY.visible = true;
 
-                        scene.add( meshXY );
+                    scene.add( meshXY );
 
-                        meshXY.position.set (100, 0, 100);
-                        meshXY.visible = false;
-                    });
-                }
-
-                function getFurniture() {
-                    $( "img" ).click(function( event ) {
-                        var target = event.target;
-                        var src = event.target.src;
-
-                        if(target.id == "chair") {
-                            if(!mesh.visible)
-                                mesh.visible = true;
-                        }
-                        else if(target.id == "wallpaper") {
-                            if(!meshXZ.visible || !meshYZ.visible) {
-                                meshXZ.visible = true;
-                                meshYZ.visible = true;
-                            }
-                        }
-                        else if(target.id == "floor") {
-                            if(!meshXY.visible)
-                                meshXY.visible = true;
-                        }
-                    });
+                    meshXY.position.set (100, 0, 100);
+                    if(!meshXY.visible) meshXY.visible = true;
                 }
 
                 function animate() {
