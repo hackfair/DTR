@@ -1,0 +1,11 @@
+{
+  "name": "Decoration the Room",
+  "description": "Through this app, decorate your room.",
+  "version": "0.1",
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "icons": { "16": "", "128": "" }
+}

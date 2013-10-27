@@ -33,53 +33,58 @@
                 border-bottom: 0;
                 clear: both; }
 
-            #furniture img {
-                padding: 20px 0 0 20px; }
+                #furniture img {
+                    padding: 20px 0 0 20px; }
 
-            .furniture-header {
-                width: 380px;
-                clear: both; }
+                .furniture-header {
+                    width: 380px;
+                    clear: both; }
 
             .wallpaper {
                 width: 40px; height: 15px;
                 float: left;
                 cursor: pointer; }
 
-            .wallpaper-box {
-                display: block;
-                clear: both; }
+                .wallpaper-box {
+                    display: block;
+                    clear: both; }
 
-            .wallpaper-box img {
-                width: 100px; height: 100px;
-                cursor: pointer; }
+                .wallpaper-box img {
+                    width: 100px; height: 100px;
+                    cursor: pointer; }
 
-            .wallpaper-box button {
-                float: right;
-                margin: 10px 10px 0 0; }
+                .wallpaper-box button {
+                    float: right;
+                    margin: 10px 10px 0 0; }
+
+                #wallpaper-file {
+                    margin: 20px 0 0 20px; }
 
             .flooring {
                 width: 40px; height: 15px;
                 float: left;
                 cursor: pointer; }
 
-            .flooring-box {
-                display: none;
-                clear: both; }
+                .flooring-box {
+                    display: none;
+                    clear: both; }
 
-            .flooring-box button {
-                float: right;
-                margin: 10px 10px 0 0; }
+                .flooring-box button {
+                    float: right;
+                    margin: 10px 10px 0 0; }
 
-            .flooring-box img {
-                width: 100px; height: 100px;
-                cursor: pointer;
-                float: left; }
+                .flooring-box img {
+                    width: 100px; height: 100px;
+                    cursor: pointer;
+                    float: left; }
 
-            .flooring-box #previewId {
-                width: 100px; height: 100px;
-                border: 0px;
-                float: left;
-            } 
+                .flooring-box #previewId {
+                    width: 100px; height: 100px;
+                    border: 0px;
+                    float: left; }
+
+                #floor-file {
+                    margin: 20px 0 0 20px; }
 
             .chair {
                 width: 40px; height: 15px;
@@ -171,18 +176,14 @@
                         <img src="/static/textures/Textures_wallpapers_14.jpg" id="wallpaper" />
                         <img src="/static/textures/Textures_wallpapers_2.jpg" id="wallpaper" />
                         <img src="/static/textures/Textures_wallpapers_9.jpg" id="wallpaper" />
-                        <input type="file" id="file" value="more" />
+                        <input type="file" name="wallpaper-file" id="wallpaper-file" />
                     </div>
                     <div class="flooring-box">
                         <img src="/static/textures/floor.jpg" id="floor" />
                         <img src="/static/textures/Textures_floor_17.jpg" id="floor" />
                         <img src="/static/textures/Textures_floor_258.jpg" id="floor" />
-                        <img src="/static/textures/Textures_floor_456.jpg" id="floor" />
                         <div id="previewId"></div>
-                        <div id="previewId"></div>
-                        <div id="previewId"></div>
-                        <div id="previewId"></div>
-                        <input type="file" name="file" value="more" onchange="previewImage(this,'previewId')"/>
+                        <input type="file" name="floor-file" id="floor-file" onchange="previewImage(this,'previewId')"/>
                     </div>
                     <div class="chair-box">
                         <img src="http://placehold.it/100x100" id="chair" />
@@ -194,7 +195,7 @@
                         <img src="http://placehold.it/100x100" id="chair" />
                         <img src="http://placehold.it/100x100" id="chair" />
                         <img src="http://placehold.it/100x100" id="chair" />
-                        <input type="file" name="file" value="more" />
+                        <input type="file" name="chair-file" />
                     </div>
                     <div class="desk-box">
                         <img src="http://placehold.it/100x100" id="desk" />
@@ -206,7 +207,7 @@
                         <img src="http://placehold.it/100x100" id="desk" />
                         <img src="http://placehold.it/100x100" id="desk" />
                         <img src="http://placehold.it/100x100" id="desk" />
-                        <input type="file" name="file" value="more" />
+                        <input type="file" name="file" />
                     </div>
                 </div>
             </div>
@@ -285,7 +286,6 @@
 
                     $("img").click(function(event) {
                         var target = event.target;
-
                         if(target.id=='wallpaper') {
                             textures();
                         } else if(target.id=='floor') {
@@ -293,10 +293,14 @@
                         }
                     });
 
-                    // $("#previewId").click(function(event) {
-                    //     var src = event.target.src;
-                    //     alert(src);
-                    // });
+                    $("#previewId").click(function(event) {
+                        var target = event.target;
+                        if(target.id=='floor') {
+                            floors();
+                        } else if(target.id=='wallpaper') {
+                            textures();
+                        }
+                    });
                   }
 
                 function furniture () {
