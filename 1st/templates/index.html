@@ -242,27 +242,27 @@
 						<input type="file" name="file" value="more" onchange="previewImage(this,'previewId')"/>
 					</div>
 					<div class="chair-box">
-						<img src="/static/images/chair/chair1.png" id="chair1" />
-						<img src="/static/images/chair/chair2.png" id="chair2" />
-						<img src="/static/images/chair/chair3.png" id="chair3" />
-						<img src="/static/images/chair/chair4.png" id="chair4" />
-						<img src="/static/images/chair/chair5.png" id="chair5" />
-						<img src="/static/images/chair/chair6.png" id="chair6" />
-						<img src="/static/images/chair/chair7.png" id="chair7" />
-						<img src="/static/images/chair/chair8.png" id="chair8" />
-						<img src="/static/images/chair/chair9.png" id="chair9" />
+						<img src="/static/textures/chair1.png" id="chair" />
+						<img src="/static/textures/014.jpg" id="chair" />
+						<img src="http://placehold.it/100x100" id="chair" />
+						<img src="http://placehold.it/100x100" id="chair" />
+						<img src="http://placehold.it/100x100" id="chair" />
+						<img src="http://placehold.it/100x100" id="chair" />
+						<img src="http://placehold.it/100x100" id="chair" />
+						<img src="http://placehold.it/100x100" id="chair" />
+						<img src="http://placehold.it/100x100" id="chair" />
 						<input type="file" name="file" value="more" />
 					</div>
 					<div class="desk-box">
-						<img src="/static/images/desk/Desk1.jpg" id="desk1" />
-						<img src="/static/images/desk/desk2.jpg" id="desk2" />
-						<img src="/static/images/desk/desk3.png" id="desk3" />
-						<img src="/static/images/desk/desk4.png" id="desk4" />
-						<img src="/static/images/desk/desk5.png" id="desk5" />
-						<img src="/static/images/desk/desk6.png" id="desk6" />
-						<img src="/static/images/desk/desk7.png" id="desk7" />
-						<img src="/static/images/desk/desk8.png" id="desk8" />
-						<img src="/static/images/desk/desk9.png" id="desk9" />
+						<img src="/static/textures/Desk1.jpg" id="desk" />
+						<img src="/static/textures/desk2.jpg" id="desk" />
+						<img src="http://placehold.it/100x100" id="desk" />
+						<img src="http://placehold.it/100x100" id="desk" />
+						<img src="http://placehold.it/100x100" id="desk" />
+						<img src="http://placehold.it/100x100" id="desk" />
+						<img src="http://placehold.it/100x100" id="desk" />
+						<img src="http://placehold.it/100x100" id="desk" />
+						<img src="http://placehold.it/100x100" id="desk" />
 						<input type="file" name="file" value="more" />
 					</div>
 				</div>
@@ -349,13 +349,13 @@
 
 					$("img").click(function(event) {
 						var target = event.target;
-
 						if (target.id == 'wallpaper') {
 							textures();
 						} else if (target.id == 'floor') {
 							floors();
-						} else {
+						} else if(target.id == 'chair') {
 							chair();
+                        } else if(target.id == 'desk') {
 							desk();
 						}
 					});
@@ -464,15 +464,21 @@
 
 				function chair() {
 					var target = event.target;
+                    var src = event.target.src;
 					var obj, mtl;
 
 					var loader = new THREE.OBJMTLLoader();
-					
-					switch (target.id) {
-						case 'chair1' :
-						obj = '/static/obj/chair/Vitra Chairs-3.obj';
-						mtl = '/static/obj/chair/Vitra Chairs-3.mtl';
-						break;
+					switch (src) {
+						case 'http://127.0.0.1:5000/static/textures/chair1.png' :
+                            obj = '/static/obj/chair/Vitra Chairs-3.obj';
+                            mtl = '/static/obj/chair/Vitra Chairs-3.mtl';
+
+                            break;
+                        case 'http://127.0.0.1:5000/static/textures/014.jpg' :
+                            obj = '/static/obj/chair/014.obj';
+                            mtl = '/static/obj/chair/014.mtl';
+
+                            break;
 					}
 
 					loader.load(obj, mtl, function(object) {
@@ -485,24 +491,25 @@
 						//	scene.remove(object);
 						//}
 					});
-
 				}
 
 				function desk() {
-
 					var target = event.target;
+                    var src = target.src;
 					var obj, mtl;
 
 					var loader = new THREE.OBJMTLLoader();
-					switch (target.id) {
-						case 'desk1' :
-						obj = '/static/obj/desk/Desk1.obj';
-						mtl = '/static/obj/desk/Desk1.mtl';
-						break;
-						case 'desk2' :
-						obj = '/static/obj/desk/desk2.obj';
-						mtl = '/static/obj/desk/desk2.mtl';
-						break;
+					switch (src) {
+						case 'http://127.0.0.1:5000/static/textures/Desk1.jpg':
+    						obj = '/static/obj/desk/Desk1.obj';
+    						mtl = '/static/obj/desk/Desk1.mtl';
+
+    						break;
+						case 'http://127.0.0.1:5000/static/textures/desk2.jpg' :
+    						obj = '/static/obj/desk/desk2.obj';
+    						mtl = '/static/obj/desk/desk2.mtl';
+
+    						break;
 					}
 
 					loader.load(obj, mtl, function(object) {
