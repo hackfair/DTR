@@ -1,0 +1,516 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<script src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/three.min.js"></script>
+		<script type="text/javascript" src="js/Detector.js"></script>
+		<script type="text/javascript" src="js/OrbitControls.js"></script>
+		<script src="js/THREEx.KeyboardState.js"></script>
+		<script src="js/THREEx.FullScreen.js"></script>
+		<script src="js/THREEx.WindowResize.js"></script>
+		<title>Room</title>
+		<style type="text/css">
+			.row {
+				width: 1400px;
+			}
+
+			#room {
+				width: 1000px;
+				height: 600px;
+				float: left;
+			}
+
+			canvas {
+				width: 1000px;
+				height: 600px;
+				border: 1px solid #000000;
+				float: left;
+			}
+
+			#outer {
+				border: 1px solid #000000;
+				float: right;
+			}
+
+			#furniture {
+				height: 500px;
+				border-top: 1px solid #000000;
+				border-bottom: 0;
+				clear: both;
+			}
+
+			#furniture img {
+				padding: 20px 0 0 20px;
+			}
+
+			.furniture-header {
+				width: 380px;
+				clear: both;
+			}
+
+			.wallpaper {
+				width: 40px;
+				height: 15px;
+				float: left;
+				cursor: pointer;
+			}
+
+			.wallpaper-box {
+				display: block;
+				clear: both;
+			}
+
+			.wallpaper-box img {
+				width: 100px;
+				height: 100px;
+				cursor: pointer;
+			}
+
+			.wallpaper-box button {
+				float: right;
+				margin: 10px 10px 0 0;
+			}
+
+			.flooring {
+				width: 40px;
+				height: 15px;
+				float: left;
+				cursor: pointer;
+			}
+
+			.flooring-box {
+				display: none;
+				clear: both;
+			}
+
+			.flooring-box button {
+				float: right;
+				margin: 10px 10px 0 0;
+			}
+
+			.flooring-box img {
+				width: 100px;
+				height: 100px;
+				cursor: pointer;
+			}
+
+			.chair {
+				width: 40px;
+				height: 15px;
+				float: left;
+				cursor: pointer;
+			}
+
+			.chair-box {
+				display: none;
+				clear: both;
+			}
+
+			.desk {
+				width: 40px;
+				height: 15px;
+				float: left;
+				cursor: pointer;
+			}
+
+			.desk-box {
+				display: none;
+				clear: both;
+			}
+
+			.input {
+				padding: 10px 0 0 5px;
+			}
+
+			.input button {
+				margin: 10px 30px 5px 0;
+				float: right;
+			}
+
+			.box {
+				width: 380px;
+				height: 20px;
+				padding: 5px 0 5px 2px;
+			}
+
+			#info {
+				color: #F0F0F0;
+				background: #2f2f2f;
+				display: none;
+			}
+
+			.bwrap {
+				margin: 0.5em 0 0 0;
+			}
+
+			button {
+				border: 0;
+				background: #000;
+				color: #fff;
+				padding: 0.2em 0.5em;
+				cursor: pointer;
+				border-radius: 3px;
+			}
+
+			button:hover {
+				background: #4f4f4f;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="row">
+			<div id="room"></div>
+			<div id="outer">
+				<div id="roomsize" class="box">
+					Roomsize
+					<div class="input">
+						<form onsubmit="return setRoomSize()">
+							<input type="text" name="width" id="width" size="15" maxlength="3" placeholder="가로 길이" />
+							x
+							<input type="text" name="leng" id="leng" size="15" maxlength="3" placeholder="세로 길이" />
+							x
+							<input type="text" name="height" id="height" size="15" maxlength="3" placeholder="높이" />
+							<button type="submit">
+								만들기
+							</button>
+						</form>
+					</div>
+				</div>
+				<div id="furniture" class="box">
+					<div class="furniture-header">
+						<div class="wallpaper">
+							벽지
+						</div>
+						<div class="flooring">
+							장판
+						</div>
+						<div class="chair">
+							의자
+						</div>
+						<div class="desk">
+							책상
+						</div>
+					</div>
+					<div class="wallpaper-box">
+						<img src="textures/first.jpg" id="wallpaper" />
+						<img src="textures/second.jpg" id="wallpaper" />
+						<img src="textures/Textures_wallpapers_1.jpg" id="wallpaper" />
+						<img src="textures/Textures_wallpapers_3.jpg" id="wallpaper" />
+						<img src="textures/Textures_wallpapers_8.jpg" id="wallpaper" />
+						<img src="textures/Textures_wallpapers_12.jpg" id="wallpaper" />
+						<img src="textures/Textures_wallpapers_14.jpg" id="wallpaper" />
+						<img src="textures/Textures_wallpapers_2.jpg" id="wallpaper" />
+						<img src="textures/Textures_wallpapers_9.jpg" id="wallpaper" />
+						<button>
+							more
+						</button>
+					</div>
+					<div class="flooring-box">
+						<img src="textures/floor.jpg" id="floor" />
+						<img src="textures/Textures_floor_17.jpg" id="floor" />
+						<img src="textures/Textures_floor_258.jpg" id="floor" />
+						<img src="textures/Textures_floor_456.jpg" id="floor" />
+						<img src="http://placehold.it/100x100" id="floor" />
+						<img src="http://placehold.it/100x100" id="floor" />
+						<img src="http://placehold.it/100x100" id="floor" />
+						<img src="http://placehold.it/100x100" id="floor" />
+						<img src="http://placehold.it/100x100" id="floor" />
+						<button>
+							more
+						</button>
+					</div>
+					<div class="chair-box">
+						chair
+					</div>
+					<div class="desk-box">
+						desk
+					</div>
+				</div>
+			</div>
+
+			<!-- button test start -->
+			<div id="info">
+				<div id="btn_chair">
+					가구 :
+					<button type="button" id="create_chair">
+						의자
+					</button>
+					<button type="button" id="textures">
+						벽지
+					</button>
+					<button type="button" id="floors">
+						장판
+					</button>
+				</div>
+			</div>
+			<!-- button test over -->
+			<script type="text/javascript">
+				// standard global variables
+				var container, scene, camera, renderer, controls, stats;
+				var keyboard = new THREEx.KeyboardState();
+				var clock = new THREE.Clock();
+				var cuttentIdx = 0;
+				//  현재 화면 상에 보이는 object
+				var Objects = [];
+				var materials = [];
+
+				var gridXZ, gridXY, gridYZ;
+				var roomX, roomY, roomZ, halfX, halfY, halfZ;
+
+				init();
+				animate();
+				// FUNCTIONS
+				function init() {
+					// SCENE
+					scene = new THREE.Scene();
+
+					var geometry = new THREE.Geometry();
+					//add
+
+					// CAMERA
+					var SCREEN_WIDTH = window.innerWidth, SCREEN_HEIGHT = window.innerHeight;
+					var VIEW_ANGLE = 45, ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT, NEAR = 0.1, FAR = 20000;
+					camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+
+					scene.add(camera);
+
+					camera.position.set(0, 300, 500);
+					camera.lookAt(scene.position);
+
+					// RENDERER
+					if (Detector.webgl)
+						renderer = new THREE.WebGLRenderer({
+							antialias : true
+						});
+					else
+						renderer = new THREE.CanvasRenderer();
+					renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+					container = document.getElementById('room');
+					container.appendChild(renderer.domElement);
+
+					// EVENTS
+					THREEx.WindowResize(renderer, camera);
+					THREEx.FullScreen.bindKey({
+						charCode : 'm'.charCodeAt(0)
+					});
+
+					// CONTROLS
+					controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+					// LIGHT
+					var light = new THREE.PointLight(0xffffff);
+					light.position.set(100, 250, 100);
+
+					scene.add(light);
+
+					//방 모양 틀 만들기
+					gridXZ = new THREE.GridHelper(100, 10);
+					gridXZ.setColors(new THREE.Color(0x006600), new THREE.Color(0x006600));
+					gridXZ.position.set(100, 0, 100);
+
+					scene.add(gridXZ);
+
+					gridXY = new THREE.GridHelper(100, 10);
+					gridXY.position.set(100, 100, 0);
+					gridXY.rotation.x = Math.PI / 2;
+					gridXY.setColors(new THREE.Color(0x000066), new THREE.Color(0x000066));
+
+					scene.add(gridXY);
+
+					gridYZ = new THREE.GridHelper(100, 10);
+					gridYZ.position.set(0, 100, 100);
+					gridYZ.rotation.z = Math.PI / 2;
+					gridYZ.setColors(new THREE.Color(0x660000), new THREE.Color(0x660000));
+
+					scene.add(gridYZ);
+
+					furniture();
+					textures();
+					floors();
+					getFurniture();
+				}
+
+				function setRoomSize() {
+					var tmpX = document.getElementById("width");
+					var tmpY = document.getElementById("leng");
+					var tmpZ = document.getElementById("height");
+
+					roomX = tmpX.value;
+					roomY = tmpY.value;
+					roomZ = tmpZ.value;
+					
+					document.write(roomX);
+
+					halfX = roomX / 2;
+					halfY = roomY / 2;
+					halfZ = roomZ / 2;
+				}
+
+				function furniture() {
+					// 상자 생성 ==================================
+					var geometry = new THREE.CubeGeometry(100, 100, 100);
+					var texture = THREE.ImageUtils.loadTexture('textures/wood.jpg');
+
+					texture.anisotropy = renderer.getMaxAnisotropy();
+
+					var material = new THREE.MeshBasicMaterial({
+						map : texture
+					});
+					mesh = new THREE.Mesh(geometry, material);
+
+					scene.add(mesh);
+
+					mesh.position.set(50, 50, 50);
+					mesh.visible = false;
+				}
+
+				//벽지 입히기
+				function textures() {
+					$("img").click(function(event) {
+						var target = event.target;
+						var src = event.target.src;
+
+						if (target.id == "wallpaper") {
+
+							gridXY.visible = false;
+							gridYZ.visible = false;
+
+							var geometryXZ = new THREE.CubeGeometry(0, roomY, roomX);
+							//CubeGeometry(width, height, depth) = (z, y, x)
+							var textureXZ = THREE.ImageUtils.loadTexture(src);
+
+							textureXZ.anisotropy = renderer.getMaxAnisotropy();
+
+							var materialXZ = new THREE.MeshBasicMaterial({
+								map : textureXZ
+							});
+							meshXZ = new THREE.Mesh(geometryXZ, materialXZ);
+
+							scene.add(meshXZ);
+
+							meshXZ.position.set(0, halfY, halfX);
+							meshXZ.visible = false;
+
+							var geometryYZ = new THREE.CubeGeometry(roomZ, roomY, 0);
+							//CubeGeometry(width, height, depth) = (z, y, x)
+							var textureYZ = THREE.ImageUtils.loadTexture(src);
+
+							textureYZ.anisotropy = renderer.getMaxAnisotropy();
+
+							var materialYZ = new THREE.MeshBasicMaterial({
+								map : textureYZ
+							});
+							meshYZ = new THREE.Mesh(geometryYZ, materialYZ);
+
+							scene.add(meshYZ);
+
+							meshYZ.position.set(halfZ, halfY, 0);
+							meshYZ.visible = false;
+
+						}
+					});
+				}
+
+				function floors() {
+					$("img").click(function(event) {
+						var target = event.target;
+						var src = event.target.src;
+
+						if (target.id == "floor") {
+
+							gridXZ.visible = false;
+
+							var geometryXY = new THREE.CubeGeometry(200, 0, 200);
+							//CubeGeometry(width, height, depth) = (z, y, x)
+							var textureXY = THREE.ImageUtils.loadTexture(src);
+
+							textureXY.anisotropy = renderer.getMaxAnisotropy();
+
+							var materialXY = new THREE.MeshBasicMaterial({
+								map : textureXY
+							});
+							meshXY = new THREE.Mesh(geometryXY, materialXY);
+
+							scene.add(meshXY);
+
+							meshXY.position.set(100, 0, 100);
+							meshXY.visible = false;
+
+						}
+					});
+				}
+
+				function getFurniture() {
+					$("img").click(function(event) {
+						var target = event.target;
+						var src = event.target.src;
+
+						if (target.id == "chair") {
+							if (!mesh.visible)
+								mesh.visible = true;
+						} else if (target.id == "wallpaper") {
+							if (!meshXZ.visible || !meshYZ.visible) {
+								meshXZ.visible = true;
+								meshYZ.visible = true;
+							}
+						} else if (target.id == "floor") {
+							if (!meshXY.visible)
+								meshXY.visible = true;
+						}
+					});
+				}
+
+				function animate() {
+					requestAnimationFrame(animate);
+					render();
+					update();
+				}
+
+				function update() {
+					// if ( keyboard.pressed("z") )
+					// {  // do something
+					// }
+					controls.update();
+					//stats.update();
+				}
+
+				function render() {
+					renderer.render(scene, camera);
+				}
+
+				function obj_btn(id) {
+					return document.getElementById(id);
+				}
+
+				//controller
+				$(document).ready(function() {
+					$('.wallpaper').click(function() {
+						$('.wallpaper-box').css('display', 'block');
+						$('.flooring-box').css('display', 'none');
+						$('.chair-box').css('display', 'none');
+						$('.desk-box').css('display', 'none');
+					});
+					$('.flooring').click(function() {
+						$('.wallpaper-box').css('display', 'none');
+						$('.flooring-box').css('display', 'block');
+						$('.chair-box').css('display', 'none');
+						$('.desk-box').css('display', 'none');
+					});
+					$('.chair').click(function() {
+						$('.wallpaper-box').css('display', 'none');
+						$('.flooring-box').css('display', 'none');
+						$('.chair-box').css('display', 'block');
+						$('.desk-box').css('display', 'none');
+					});
+					$('.desk').click(function() {
+						$('.wallpaper-box').css('display', 'none');
+						$('.flooring-box').css('display', 'none');
+						$('.chair-box').css('display', 'none');
+						$('.desk-box').css('display', 'block');
+					});
+				});
+			</script>
+		</div>
+	</body>
+</html>
