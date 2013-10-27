@@ -2,13 +2,13 @@
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <script src="js/jquery.js"></script>
-        <script type="text/javascript" src="js/three.min.js"></script>
-        <script type="text/javascript" src="js/Detector.js"></script>
-        <script type="text/javascript" src="js/OrbitControls.js"></script>
-        <script src="js/THREEx.KeyboardState.js"></script>
-        <script src="js/THREEx.FullScreen.js"></script>
-        <script src="js/THREEx.WindowResize.js"></script>
+        <script src="/static/js/jquery.js"></script>
+        <script type="text/javascript" src="/static/js/three.min.js"></script>
+        <script type="text/javascript" src="/static/js/Detector.js"></script>
+        <script type="text/javascript" src="/static/js/OrbitControls.js"></script>
+        <script src="/static/js/THREEx.KeyboardState.js"></script>
+        <script src="/static/js/THREEx.FullScreen.js"></script>
+        <script src="/static/js/THREEx.WindowResize.js"></script>
         <title>Room</title>
         <style type="text/css">
             .row {
@@ -79,7 +79,6 @@
                 width: 100px; height: 100px;
                 border: 0px;
                 float: left;
-                margin: 20px 0 0 20px;
             } 
 
             .chair {
@@ -163,22 +162,22 @@
                         </div>
                     </div>
                     <div class="wallpaper-box">
-                        <img src="textures/first.jpg" id="wallpaper" />
-                        <img src="textures/second.jpg" id="wallpaper" />
-                        <img src="textures/Textures_wallpapers_1.jpg" id="wallpaper" />
-                        <img src="textures/Textures_wallpapers_3.jpg" id="wallpaper" />
-                        <img src="textures/Textures_wallpapers_8.jpg" id="wallpaper" />
-                        <img src="textures/Textures_wallpapers_12.jpg" id="wallpaper" />
-                        <img src="textures/Textures_wallpapers_14.jpg" id="wallpaper" />
-                        <img src="textures/Textures_wallpapers_2.jpg" id="wallpaper" />
-                        <img src="textures/Textures_wallpapers_9.jpg" id="wallpaper" />
+                        <img src="/static/textures/first.jpg" id="wallpaper" />
+                        <img src="/static/textures/second.jpg" id="wallpaper" />
+                        <img src="/static/textures/Textures_wallpapers_1.jpg" id="wallpaper" />
+                        <img src="/static/textures/Textures_wallpapers_3.jpg" id="wallpaper" />
+                        <img src="/static/textures/Textures_wallpapers_8.jpg" id="wallpaper" />
+                        <img src="/static/textures/Textures_wallpapers_12.jpg" id="wallpaper" />
+                        <img src="/static/textures/Textures_wallpapers_14.jpg" id="wallpaper" />
+                        <img src="/static/textures/Textures_wallpapers_2.jpg" id="wallpaper" />
+                        <img src="/static/textures/Textures_wallpapers_9.jpg" id="wallpaper" />
                         <input type="file" id="file" value="more" />
                     </div>
                     <div class="flooring-box">
-                        <img src="textures/floor.jpg" id="floor" />
-                        <img src="textures/Textures_floor_17.jpg" id="floor" />
-                        <img src="textures/Textures_floor_258.jpg" id="floor" />
-                        <img src="textures/Textures_floor_456.jpg" id="floor" />
+                        <img src="/static/textures/floor.jpg" id="floor" />
+                        <img src="/static/textures/Textures_floor_17.jpg" id="floor" />
+                        <img src="/static/textures/Textures_floor_258.jpg" id="floor" />
+                        <img src="/static/textures/Textures_floor_456.jpg" id="floor" />
                         <div id="previewId"></div>
                         <div id="previewId"></div>
                         <div id="previewId"></div>
@@ -211,17 +210,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- button test start -->
-            <div id="info">
-                <div id="btn_chair">
-                    가구 : 
-                    <button type="button" id="create_chair">의자</button>
-                    <button type="button" id="textures">벽지</button>
-                    <button type="button" id="floors">장판</button>
-                </div>
-            </div>
-            <!-- button test over -->
             <script type="text/javascript">
                 // standard global variables
                 var container, scene, camera, renderer, controls, stats;
@@ -299,11 +287,16 @@
                     //     if(target.id=='wallpaper') {
                     //         textures();
                     //         getFurniture();
-                    //     } else if(target.id='floor') {
+                    //     } else if(target.id=='floor') {
                     //         floors();
                     //         getFurniture();
                     //     }
                     // });
+
+                    $("#previewId").click(function(event) {
+                        var src = event.target.src;
+                        alert(src);
+                    });
 
                     furniture();
                     textures();
@@ -314,7 +307,7 @@
                 function furniture () {
                     // 상자 생성 ==================================
                     var geometry = new THREE.CubeGeometry( 100, 100, 100 );
-                    var texture = THREE.ImageUtils.loadTexture( 'textures/wood.jpg' );
+                    var texture = THREE.ImageUtils.loadTexture( '/static/textures/wood.jpg' );
 
                     texture.anisotropy = renderer.getMaxAnisotropy();
 
@@ -333,18 +326,15 @@
                 function textures() {
                     $( "img" ).click(function( event ) {
                         var target = event.target;
-                        var src = event.target.src;   
+                        var src = event.target.src;
 
                         var geometryXZ = new THREE.CubeGeometry( 0, 200, 200 ); //CubeGeometry(width, height, depth) = (z, y, x)
                         var textureXZ = THREE.ImageUtils.loadTexture( src );
 
                         textureXZ.anisotropy = renderer.getMaxAnisotropy();
 
-                        if(meshXZ != null && target.id == 'wallpaper') {
-                            scene.remove( meshXZ );
-                            alert(target.id);
-                        }
-                        
+                        if( meshXZ != null ) scene.remove( meshXZ );
+
                         var materialXZ = new THREE.MeshBasicMaterial( { map: textureXZ } );
                         meshXZ = new THREE.Mesh( geometryXZ, materialXZ );
 
@@ -358,13 +348,8 @@
 
                         textureYZ.anisotropy = renderer.getMaxAnisotropy();
 
-                        /*if(!meshXY.visible) {
-                            meshXY.visible = true;
-                        }*/
 
-                        /*if(meshYZ != null && target.id == 'wallpaper') {
-                            scene.remove( meshYZ );
-                        }*/
+                        if( meshYZ != null ) scene.remove( meshYZ );
 
                         var materialYZ = new THREE.MeshBasicMaterial( { map: textureYZ } );
                         meshYZ = new THREE.Mesh( geometryYZ, materialYZ );
@@ -386,13 +371,10 @@
 
                         textureXY.anisotropy = renderer.getMaxAnisotropy();
 
-                        if(meshXY != null && target.id == 'floor') {
-                            scene.remove( meshXY );
-                            alert(target.id);
-                        }
-                        
+                        if( meshXY != null ) scene.remove( meshXY );
+
                         var materialXY = new THREE.MeshBasicMaterial( { map: textureXY } );
-                        meshXY = new THREE.Mesh( geometryXY, materialXY );
+                        meshXY = new THREE.Mesh( geometryXY, materialXY );   
 
                         scene.add( meshXY );
 
@@ -445,16 +427,6 @@
                     return document.getElementById(id);
                 }
 
-                //사진 추가 후 썸네일 보여주기
-                // function preview() {
-                //     var tmp = new Image;
-                //     tmp.src = document.form.file.value;
-                //     document.view.src = tmp.src;
-                //     document.view.style.display = "block";
-                //     document.view.width = 100;
-                //     document.view.height = 100;
-                // }
-
                 //썸네일
                 function previewImage(targetObj, previewId) {
                     var preview = document.getElementById(previewId); //div id   
@@ -475,11 +447,11 @@
                         }
 
                         var img = document.createElement("img"); //크롬은 div에 이미지가 뿌려지지 않는다. 그래서 자식Element를 만든다.
-                        img.id = "prev_" + previewId;
+                        img.id = "floor";
                         img.classList.add("obj");
                         img.file = file;
-                        img.style.width = '50px'; //기본설정된 div의 안에 뿌려지는 효과를 주기 위해서 div크기와 같은 크기를 지정해준다.
-                        img.style.height = '50px';
+                        img.style.width = '100px'; //기본설정된 div의 안에 뿌려지는 효과를 주기 위해서 div크기와 같은 크기를 지정해준다.
+                        img.style.height = '100px';
 
                         preview.appendChild(img);
 
