@@ -9,6 +9,8 @@
         <script src="/static/js/THREEx.KeyboardState.js"></script>
         <script src="/static/js/THREEx.FullScreen.js"></script>
         <script src="/static/js/THREEx.WindowResize.js"></script>
+        <script src="/static/js/MTLLoader.js"></script>
+        <script src="/static/js/OBJMTLLoader.js"></script>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" media="screen" />
         <title>Room</title>
         <style type="text/css">
@@ -35,6 +37,7 @@
                 clear: both; }
 
                 #furniture img {
+                    width: 100px; height: 100px;
                     padding: 20px 0 0 17px; }
 
                 .furniture-header {
@@ -214,8 +217,8 @@
                         <!--<input type="file" name="floor-file" id="floor-file" onchange="previewImage(this,'previewId')"/>-->
                     </div>
                     <div class="chair-box">
-                        <img src="http://placehold.it/100x100" id="chair" />
-                        <img src="http://placehold.it/100x100" id="chair" />
+                        <img src="/static/textures/chair1.png" id="chair" />
+                        <img src="/static/textures/014.jpg" id="chair" />
                         <img src="http://placehold.it/100x100" id="chair" />
                         <img src="http://placehold.it/100x100" id="chair" />
                         <img src="http://placehold.it/100x100" id="chair" />
@@ -229,8 +232,8 @@
                         <!--<input type="file" name="chair-file" />-->
                     </div>
                     <div class="desk-box">
-                        <img src="http://placehold.it/100x100" id="desk" />
-                        <img src="http://placehold.it/100x100" id="desk" />
+                        <img src="/static/textures/Desk1.jpg" id="desk" />
+                        <img src="/static/textures/desk2.jpg" id="desk" />
                         <img src="http://placehold.it/100x100" id="desk" />
                         <img src="http://placehold.it/100x100" id="desk" />
                         <img src="http://placehold.it/100x100" id="desk" />
@@ -320,21 +323,25 @@
 
                     $("img").click(function(event) {
                         var target = event.target;
-                        if(target.id=='wallpaper') {
+                        if (target.id == 'wallpaper') {
                             textures();
-                        } else if(target.id=='floor') {
+                        } else if (target.id == 'floor') {
                             floors();
+                        } else if(target.id == 'chair') {
+                            chair();
+                        } else if(target.id == 'desk') {
+                            desk();
                         }
                     });
 
-                    $("#previewId").click(function(event) {
-                        var target = event.target;
-                        if(target.id=='floor') {
-                            floors();
-                        } else if(target.id=='wallpaper') {
-                            textures();
-                        }
-                    });
+                    // $("#previewId").click(function(event) {
+                    //     var target = event.target;
+                    //     if(target.id=='floor') {
+                    //         floors();
+                    //     } else if(target.id=='wallpaper') {
+                    //         textures();
+                    //     }
+                    // });
                   }
 
                 function furniture () {
@@ -355,6 +362,17 @@
 
                 //벽지 입히기 
                 function textures() {
+                    var target = event.target;
+                    var src = event.target.src;
+
+                    var geometryXZ = new THREE.CubeGeometry( 0, 400, 400 ); //CubeGeometry(width, height, depth) = (z, y, x)
+                    var textureXZ = THREE.ImageUtils.loadTexture( src );
+
+					mesh.position.set(50, 50, 50);
+					mesh.visible = false;
+				}
+
+				function textures() {
                     var target = event.target;
                     var src = event.target.src;
 
@@ -411,6 +429,63 @@
                     if(!meshXY.visible) meshXY.visible = true;
                 }
 
+                function chair() {
+                    var target = event.target;
+                    var src = event.target.src;
+                    var obj, mtl;
+
+                    var loader = new THREE.OBJMTLLoader();
+                    switch (src) {
+                        case 'http://127.0.0.1:5000/static/textures/chair1.png' :
+                            obj = '/static/obj/chair/Vitra Chairs-3.obj';
+                            mtl = '/static/obj/chair/Vitra Chairs-3.mtl';
+
+                            break;
+                        case 'http://127.0.0.1:5000/static/textures/014.jpg' :
+                            obj = '/static/obj/chair/014.obj';
+                            mtl = '/static/obj/chair/014.mtl';
+
+                            break;
+                    }
+
+                    loader.load(obj, mtl, function(object) {
+                        
+                        //if(object.visible){
+                            scene.add(object);
+                            object.position.set(100, 0, 100);
+                        //}
+                        //else{
+                        //  scene.remove(object);
+                        //}
+                    });
+                }
+
+                function desk() {
+                    var target = event.target;
+                    var src = target.src;
+                    var obj, mtl;
+
+                    var loader = new THREE.OBJMTLLoader();
+                    switch (src) {
+                        case 'http://127.0.0.1:5000/static/textures/Desk1.jpg':
+                            obj = '/static/obj/desk/Desk1.obj';
+                            mtl = '/static/obj/desk/Desk1.mtl';
+
+                            break;
+                        case 'http://127.0.0.1:5000/static/textures/desk2.jpg' :
+                            obj = '/static/obj/desk/desk2.obj';
+                            mtl = '/static/obj/desk/desk2.mtl';
+
+                            break;
+                    }
+
+                    loader.load(obj, mtl, function(object) {
+                        scene.add(object);
+                        object2.position.set(0, 0, 0);
+                    });
+
+                }
+
                 function animate() {
                     requestAnimationFrame( animate );
                     render();    
@@ -433,21 +508,21 @@
                     return document.getElementById(id);
                 }
 
-                function setRoomSize() {
-                    var tmpX = document.getElementById("width");
-                    var tmpY = document.getElementById("leng");
-                    var tmpZ = document.getElementById("height");
+                // function setRoomSize() {
+                //     var tmpX = document.getElementById("width");
+                //     var tmpY = document.getElementById("leng");
+                //     var tmpZ = document.getElementById("height");
 
-                    roomX = tmpX.value;
-                    roomY = tmpY.value;
-                    roomZ = tmpZ.value;
+                //     roomX = tmpX.value;
+                //     roomY = tmpY.value;
+                //     roomZ = tmpZ.value;
                     
-                    document.write(roomX);
+                //     document.write(roomX);
 
-                    halfX = roomX / 2;
-                    halfY = roomY / 2;
-                    halfZ = roomZ / 2;
-                }
+                //     halfX = roomX / 2;
+                //     halfY = roomY / 2;
+                //     halfZ = roomZ / 2;
+                // }
 
                 //썸네일
                 function previewImage(targetObj, previewId) {
@@ -523,8 +598,6 @@
                         $('.chair-box').css('display', 'none');
                         $('.desk-box').css('display', 'block');
                     });
-
-                    $
                 });
             </script>
         </div>
