@@ -72,7 +72,15 @@
 
             .flooring-box img {
                 width: 100px; height: 100px;
-                cursor: pointer; }
+                cursor: pointer;
+                float: left; }
+
+            .flooring-box #previewId {
+                width: 100px; height: 100px;
+                border: 0px;
+                float: left;
+                margin: 20px 0 0 20px;
+            } 
 
             .chair {
                 width: 40px; height: 15px;
@@ -117,9 +125,10 @@
                 color: #fff;
                 padding: 0.2em 0.5em;
                 cursor: pointer;
-                border-radius: 3px; }
+                border-radius: 3px;
+                float: right; }
 
-            button:hover {
+            button:hover{
                 background: #4f4f4f; }
         </style>
     </head>
@@ -163,25 +172,42 @@
                         <img src="textures/Textures_wallpapers_14.jpg" id="wallpaper" />
                         <img src="textures/Textures_wallpapers_2.jpg" id="wallpaper" />
                         <img src="textures/Textures_wallpapers_9.jpg" id="wallpaper" />
-                        <button>more</button>
+                        <input type="file" id="file" value="more" />
                     </div>
                     <div class="flooring-box">
                         <img src="textures/floor.jpg" id="floor" />
                         <img src="textures/Textures_floor_17.jpg" id="floor" />
                         <img src="textures/Textures_floor_258.jpg" id="floor" />
                         <img src="textures/Textures_floor_456.jpg" id="floor" />
-                        <img src="http://placehold.it/100x100" id="floor" />
-                        <img src="http://placehold.it/100x100" id="floor" />
-                        <img src="http://placehold.it/100x100" id="floor" />
-                        <img src="http://placehold.it/100x100" id="floor" />
-                        <img src="http://placehold.it/100x100" id="floor" />
-                        <button>more</button>
+                        <div id="previewId"></div>
+                        <div id="previewId"></div>
+                        <div id="previewId"></div>
+                        <div id="previewId"></div>
+                        <input type="file" name="file" value="more" onchange="previewImage(this,'previewId')"/>
                     </div>
                     <div class="chair-box">
-                        chair
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <input type="file" name="file" value="more" />
                     </div>
                     <div class="desk-box">
-                        desk
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <img src="http://placehold.it/100x100" id="floor" />
+                        <input type="file" name="file" value="more" />
                     </div>
                 </div>
             </div>
@@ -207,6 +233,7 @@
 
                 init();
                 animate();
+                //preview();
                 // FUNCTIONS     
                 function init() {
                     // SCENE
@@ -267,6 +294,17 @@
 
                     scene.add(gridYZ);
 
+                    // $("img").click(function(event) {
+                    //     var target = event.target;
+                    //     if(target.id=='wallpaper') {
+                    //         textures();
+                    //         getFurniture();
+                    //     } else if(target.id='floor') {
+                    //         floors();
+                    //         getFurniture();
+                    //     }
+                    // });
+
                     furniture();
                     textures();
                     floors();
@@ -289,17 +327,24 @@
                     mesh.visible = false;
                 }
 
+                var meshXZ, meshYZ, meshXY;
+
                 //벽지 입히기 
                 function textures() {
                     $( "img" ).click(function( event ) {
                         var target = event.target;
-                        var src = event.target.src;
+                        var src = event.target.src;   
 
                         var geometryXZ = new THREE.CubeGeometry( 0, 200, 200 ); //CubeGeometry(width, height, depth) = (z, y, x)
                         var textureXZ = THREE.ImageUtils.loadTexture( src );
 
                         textureXZ.anisotropy = renderer.getMaxAnisotropy();
 
+                        if(meshXZ != null && target.id == 'wallpaper') {
+                            scene.remove( meshXZ );
+                            alert(target.id);
+                        }
+                        
                         var materialXZ = new THREE.MeshBasicMaterial( { map: textureXZ } );
                         meshXZ = new THREE.Mesh( geometryXZ, materialXZ );
 
@@ -312,6 +357,14 @@
                         var textureYZ = THREE.ImageUtils.loadTexture( src );
 
                         textureYZ.anisotropy = renderer.getMaxAnisotropy();
+
+                        /*if(!meshXY.visible) {
+                            meshXY.visible = true;
+                        }*/
+
+                        /*if(meshYZ != null && target.id == 'wallpaper') {
+                            scene.remove( meshYZ );
+                        }*/
 
                         var materialYZ = new THREE.MeshBasicMaterial( { map: textureYZ } );
                         meshYZ = new THREE.Mesh( geometryYZ, materialYZ );
@@ -333,6 +386,11 @@
 
                         textureXY.anisotropy = renderer.getMaxAnisotropy();
 
+                        if(meshXY != null && target.id == 'floor') {
+                            scene.remove( meshXY );
+                            alert(target.id);
+                        }
+                        
                         var materialXY = new THREE.MeshBasicMaterial( { map: textureXY } );
                         meshXY = new THREE.Mesh( geometryXY, materialXY );
 
@@ -352,7 +410,7 @@
                             if(!mesh.visible)
                                 mesh.visible = true;
                         }
-                        else if(target.id == "wallpaper"){
+                        else if(target.id == "wallpaper") {
                             if(!meshXZ.visible || !meshYZ.visible) {
                                 meshXZ.visible = true;
                                 meshYZ.visible = true;
@@ -385,6 +443,64 @@
 
                 function obj_btn(id){
                     return document.getElementById(id);
+                }
+
+                //사진 추가 후 썸네일 보여주기
+                // function preview() {
+                //     var tmp = new Image;
+                //     tmp.src = document.form.file.value;
+                //     document.view.src = tmp.src;
+                //     document.view.style.display = "block";
+                //     document.view.width = 100;
+                //     document.view.height = 100;
+                // }
+
+                //썸네일
+                function previewImage(targetObj, previewId) {
+                    var preview = document.getElementById(previewId); //div id   
+                    var ua = window.navigator.userAgent;
+                    var files = targetObj.files;
+
+                    for ( var i = 0; i < files.length; i++) {
+                        var file = files[i];
+                        var imageType = /image.*/; //이미지 파일일경우만.. 뿌려준다.
+                    
+                        if (!file.type.match(imageType))
+                            continue;
+
+                        var prevImg = document.getElementById("prev_" + previewId); //이전에 미리보기가 있다면 삭제
+                        
+                        if (prevImg) {
+                            preview.removeChild(prevImg);
+                        }
+
+                        var img = document.createElement("img"); //크롬은 div에 이미지가 뿌려지지 않는다. 그래서 자식Element를 만든다.
+                        img.id = "prev_" + previewId;
+                        img.classList.add("obj");
+                        img.file = file;
+                        img.style.width = '50px'; //기본설정된 div의 안에 뿌려지는 효과를 주기 위해서 div크기와 같은 크기를 지정해준다.
+                        img.style.height = '50px';
+
+                        preview.appendChild(img);
+
+                        if (window.FileReader) { // FireFox, Chrome, Opera 확인.
+                            var reader = new FileReader();
+                            reader.onloadend = (function(aImg) {
+                                return function(e) {
+                                    aImg.src = e.target.result;
+                                };
+                            })(img);
+                            reader.readAsDataURL(file);
+                            } else { // safari is not supported FileReader
+                            //alert('not supported FileReader');
+                            if (!document.getElementById("sfr_preview_error_" + previewId)) {
+                                var info = document.createElement("p");
+                                info.id = "sfr_preview_error_" + previewId;
+                                info.innerHTML = "not supported FileReader";
+                                preview.insertBefore(info, null);
+                            }
+                            }
+                    }
                 }
 
                 //controller
