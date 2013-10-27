@@ -218,6 +218,7 @@
                 var cuttentIdx = 0;  //  현재 화면 상에 보이는 object
                 var Objects = [];
                 var materials =[];
+                var meshXZ, meshYZ, meshXY;
 
                 init();
                 animate();
@@ -282,26 +283,28 @@
 
                     scene.add(gridYZ);
 
-                    // $("img").click(function(event) {
-                    //     var target = event.target;
-                    //     if(target.id=='wallpaper') {
-                    //         textures();
-                    //         getFurniture();
-                    //     } else if(target.id=='floor') {
-                    //         floors();
-                    //         getFurniture();
-                    //     }
-                    // });
+                    $("img").click(function(event) {
+                        var target = event.target;
 
-                    $("#previewId").click(function(event) {
-                        var src = event.target.src;
-                        alert(src);
+                        if(target.id=='wallpaper') {
+                            textures();
+                            getFurniture();
+
+                        } else if(target.id=='floor') {
+                            floors();
+                            getFurniture();
+                        }
                     });
 
-                    furniture();
-                    textures();
-                    floors();
-                    getFurniture();
+                    // $("#previewId").click(function(event) {
+                    //     var src = event.target.src;
+                    //     alert(src);
+                    // });
+
+                    // furniture();
+                    // textures();
+                    // floors();
+                    // getFurniture();
                   }
 
                 function furniture () {
@@ -319,8 +322,6 @@
                     mesh.position.set (50, 50, 50);
                     mesh.visible = false;
                 }
-
-                var meshXZ, meshYZ, meshXY;
 
                 //벽지 입히기 
                 function textures() {
@@ -348,7 +349,6 @@
 
                         textureYZ.anisotropy = renderer.getMaxAnisotropy();
 
-
                         if( meshYZ != null ) scene.remove( meshYZ );
 
                         var materialYZ = new THREE.MeshBasicMaterial( { map: textureYZ } );
@@ -374,7 +374,9 @@
                         if( meshXY != null ) scene.remove( meshXY );
 
                         var materialXY = new THREE.MeshBasicMaterial( { map: textureXY } );
-                        meshXY = new THREE.Mesh( geometryXY, materialXY );   
+                        meshXY = new THREE.Mesh( geometryXY, materialXY );
+
+                        //if(!meshXY.visible) meshXY.visible = true;
 
                         scene.add( meshXY );
 
@@ -388,7 +390,7 @@
                         var target = event.target;
                         var src = event.target.src;
 
-                        if(target.id == "chair"){
+                        if(target.id == "chair") {
                             if(!mesh.visible)
                                 mesh.visible = true;
                         }
