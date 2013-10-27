@@ -7,5 +7,5 @@
       "scripts": ["background.js"]
     }
   },
-  "icons": { "16": "", "128": "" }
+  "icons": { "16": "DTR(16x16).png", "128": "DTR(128x128).png" }
 }

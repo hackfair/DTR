@@ -1,0 +1,260 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" media="screen" />
+        <title>Room</title>
+        <style type="text/css">
+            .row {
+                width: 1400px; }
+
+            #room {
+                width: 1000px; height: 600px;
+                float: left; }
+
+            canvas {
+                width: 1000px; height: 600px;
+                border: 1px solid #000000;
+                float: left; }
+
+            #outer {
+                border: 1px solid #000000;
+                float: right; }
+
+            #furniture {
+                height: 590px;
+                --border-top: 1px solid #000000;
+                border-bottom: 0;
+                clear: both; }
+
+                #furniture img {
+                    width: 100px; height: 100px;
+                    padding: 20px 0 0 17px; }
+
+                .furniture-header {
+                    width: 380px;
+                    height: 50px;
+                    border-bottom: 1px solid #000000;
+                    clear: both; }
+
+                #furniture button {
+                    margin-left: 20px;
+                }
+
+            .wallpaper {
+                height: 50px;
+                padding-top: 10px;
+                text-align: center;
+                float: left;
+                cursor: pointer; }
+
+                .wallpaper-box {
+                    display: block;
+                    clear: both; }
+
+                .wallpaper-box img {
+                    width: 100px; height: 100px;
+                    cursor: pointer; }
+
+                .wallpaper-box button {
+                    float: right;
+                    margin: 10px 10px 0 0; }
+
+                #wallpaper-file {
+                    margin: 20px 0 0 20px; }
+
+            .flooring {
+                width: 95px; height: 50px;
+                padding-top: 10px;
+                text-align: center;
+                float: left;
+                cursor: pointer; }
+
+                .flooring-box {
+                    display: none;
+                    clear: both; }
+
+                .flooring-box button {
+                    float: right;
+                    margin: 10px 10px 0 0; }
+
+                .flooring-box img {
+                    width: 100px; height: 100px;
+                    cursor: pointer;
+                    float: left; }
+
+                .flooring-box #previewId {
+                    width: 100px; height: 100px;
+                    border: 0px;
+                    float: left; }
+
+                #floor-file {
+                    margin: 20px 0 0 20px; }
+
+            .chair {
+                width: 95px; height: 50px;
+                padding-top: 10px;
+                text-align: center;
+                float: left;
+                cursor: pointer; }
+
+            .chair-box {
+                display: none;
+                clear: both; }
+
+            .chair-box img {
+                cursor: pointer; }
+
+            .desk {
+                width: 95px; height: 50px;
+                padding-top: 10px;
+                text-align: center;
+                float: left; 
+                cursor: pointer; }
+
+            .desk-box {
+                display: none;
+                clear: both; }
+
+            .desk-box img {
+                cursor: pointer;
+            }
+
+            .input {
+                padding: 10px 0 0 5px; }
+
+            .input button {
+                margin: 10px 30px 5px 0;
+                float: right; }
+
+            .box {
+                width: 380px; height: 20px;
+                padding: 5px 0 5px 2px; }
+
+            #info {
+                color: #F0F0F0;
+                background: #2f2f2f;
+                display: none; }
+
+            .bwrap {
+                margin: 0.5em 0 0 0; }
+
+            button {
+                border: 0;
+                background: #000;
+                color: #fff;
+                padding: 0.2em 0.5em;
+                cursor: pointer;
+                border-radius: 3px;
+                float: right; }
+
+            button:hover{
+                background: #4f4f4f; }
+        </style>
+    </head>
+    <body>
+        <div class="row">
+            <div id="room"></div>
+            <div id="outer">
+                <!--
+                <div id="roomsize" class="box">
+                    Roomsize
+                    <div class="input">
+                        <form onsubmit="return setRoomSize()" methods="get">
+                            <input type="text" name="width" id="width" size="15" maxlength="3" placeholder="가로 길이" /> x 
+                            <input type="text" name="leng" id="leng" size="15" maxlength="3" placeholder="세로 길이" /> x
+                            <input type="text" name="height" id="height" size="15" maxlength="3" placeholder="높이" />
+                            <button type="submit">만들기</button>
+                        </form>
+                    </div>
+                </div>
+            -->
+                <div id="furniture" class="box">
+                    <div class="furniture-header">
+                        <div class="wallpaper">
+                            <button type="button" class="btn btn-info">벽지</button>
+                        </div>
+                        <div class="flooring">
+                            <button type="button" class="btn btn-info">장판</button>
+                        </div>
+                        <div class="chair">
+                            <button type="button" class="btn btn-info">의자</button>
+                        </div>
+                        <div class="desk">
+                            <button type="button" class="btn btn-info">책상</button>
+                        </div>
+                    </div>
+                    <div class="wallpaper-box">
+                        <img src="/static/textures/first.jpg" id="wallpaper" />
+                        <img src="/static/textures/second.jpg" id="wallpaper" />
+                        <img src="/static/textures/Textures_wallpapers_1.jpg" id="wallpaper" />
+                        <img src="/static/textures/Textures_wallpapers_3.jpg" id="wallpaper" />
+                        <img src="/static/textures/Textures_wallpapers_8.jpg" id="wallpaper" />
+                        <img src="/static/textures/Textures_wallpapers_12.jpg" id="wallpaper" />
+                        <img src="/static/textures/Textures_wallpapers_14.jpg" id="wallpaper" />
+                        <img src="/static/textures/Textures_wallpapers_2.jpg" id="wallpaper" />
+                        <img src="/static/textures/Textures_wallpapers_9.jpg" id="wallpaper" />
+                        <img src="/static/textures/100x100.gif" id="wallpaper" />
+                        <img src="/static/textures/100x100.gif" id="wallpaper" />
+                        <img src="/static/textures/100x100.gif" id="wallpaper" />
+                    </div>
+                    <div class="flooring-box">
+                        <img src="/static/textures/floor.jpg" id="floor" />
+                        <img src="/static/textures/Textures_floor_17.jpg" id="floor" />
+                        <img src="/static/textures/Textures_floor_258.jpg" id="floor" />
+                        <img src="/static/textures/textures-wallpapers-floor-wood-texturebackgrounds.jpg" id="floor" />
+                        <img src="/static/textures/wood-floor-background-wallpapers.jpg" id="floor" />
+                        <img src="/static/textures/photography-wallpapers-floor-wood-texture-backgrounds-wallpaper.jpg" id="floor" />
+                        <img src="/static/textures/100x100.gif" id="floor" />
+                        <img src="/static/textures/100x100.gif" id="floor" />
+                        <img src="/static/textures/100x100.gif" id="floor" />
+                        <img src="/static/textures/100x100.gif" id="floor" />
+                        <img src="/static/textures/100x100.gif" id="floor" />
+                        <img src="/static/textures/100x100.gif" id="floor" />
+                        <!--<input type="file" name="floor-file" id="floor-file" onchange="previewImage(this,'previewId')"/>-->
+                    </div>
+                    <div class="chair-box">
+                        <img src="/static/textures/chair1.png" id="chair" />
+                        <img src="/static/textures/014.jpg" id="chair" />
+                        <img src="/static/textures/100x100.gif" id="chair" />
+                        <img src="/static/textures/100x100.gif" id="chair" />
+                        <img src="/static/textures/100x100.gif" id="chair" />
+                        <img src="/static/textures/100x100.gif" id="chair" />
+                        <img src="/static/textures/100x100.gif" id="chair" />
+                        <img src="/static/textures/100x100.gif" id="chair" />
+                        <img src="/static/textures/100x100.gif" id="chair" />
+                        <img src="/static/textures/100x100.gif" id="chair" />
+                        <img src="/static/textures/100x100.gif" id="chair" />
+                        <img src="/static/textures/100x100.gif" id="chair" />
+                        <!--<input type="file" name="chair-file" />-->
+                    </div>
+                    <div class="desk-box">
+                        <img src="/static/textures/Desk1.jpg" id="desk" />
+                        <img src="/static/textures/desk2.jpg" id="desk" />
+                        <img src="/static/textures/100x100.gif" id="desk" />
+                        <img src="/static/textures/100x100.gif" id="desk" />
+                        <img src="/static/textures/100x100.gif" id="desk" />
+                        <img src="/static/textures/100x100.gif" id="desk" />
+                        <img src="/static/textures/100x100.gif" id="desk" />
+                        <img src="/static/textures/100x100.gif" id="desk" />
+                        <img src="/static/textures/100x100.gif" id="desk" />
+                        <img src="/static/textures/100x100.gif" id="desk" />
+                        <img src="/static/textures/100x100.gif" id="desk" />
+                        <img src="/static/textures/100x100.gif" id="desk" />
+                        <!--<input type="file" name="file" />-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/static/js/jquery.js"></script>
+        <script type="text/javascript" src="/static/js/three.min.js"></script>
+        <script type="text/javascript" src="/static/js/Detector.js"></script>
+        <script type="text/javascript" src="/static/js/OrbitControls.js"></script>
+        <script src="/static/js/THREEx.KeyboardState.js"></script>
+        <script src="/static/js/THREEx.FullScreen.js"></script>
+        <script src="/static/js/THREEx.WindowResize.js"></script>
+        <script src="/static/js/MTLLoader.js"></script>
+        <script src="/static/js/OBJMTLLoader.js"></script>
+        <script src="background.js"></script>
+    </body>
+ </html>
