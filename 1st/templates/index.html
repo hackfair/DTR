@@ -138,7 +138,7 @@
                 <div id="roomsize" class="box">
                     Roomsize
                     <div class="input">
-                        <form method="get">
+                        <form onsubmit="return setRoomSize()" methods="get">
                             <input type="text" name="width" id="width" size="15" maxlength="3" placeholder="가로 길이" /> x 
                             <input type="text" name="leng" id="leng" size="15" maxlength="3" placeholder="세로 길이" /> x
                             <input type="text" name="height" id="height" size="15" maxlength="3" placeholder="높이" />
@@ -425,6 +425,22 @@
 
                 function obj_btn(id){
                     return document.getElementById(id);
+                }
+
+                function setRoomSize() {
+                    var tmpX = document.getElementById("width");
+                    var tmpY = document.getElementById("leng");
+                    var tmpZ = document.getElementById("height");
+
+                    roomX = tmpX.value;
+                    roomY = tmpY.value;
+                    roomZ = tmpZ.value;
+                    
+                    document.write(roomX);
+
+                    halfX = roomX / 2;
+                    halfY = roomY / 2;
+                    halfZ = roomZ / 2;
                 }
 
                 //썸네일
