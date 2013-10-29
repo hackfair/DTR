@@ -1,7 +1,7 @@
 {
   "name": "Transforoom",
   "description": "방을 꾸며보세요~ 다양한 가구들과 장판, 벽지 등을 이용해 가상의 방을 통해 꾸며보고, 어울리는 조합을 찾아 실제로 방에 적용해보세요~",
-  "version": "0.1",
+  "version": "0.1.1",
   "app": {
     "background": {
       "scripts": ["background.js"]

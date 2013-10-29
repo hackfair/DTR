@@ -83,8 +83,11 @@ chrome.app.runtime.onLaunched.addListener(function() {
                         var target = event.target;
                         if (target.id == 'wallpaper') {
                             textures();
+                            scene.remove(gridXY);
+                            scene.remove(gridYZ);
                         } else if (target.id == 'floor') {
                             floors();
+                            scene.remove(gridXZ);
                         } else if(target.id == 'chair') {
                             chair();
                         } else if(target.id == 'desk') {
@@ -118,17 +121,17 @@ chrome.app.runtime.onLaunched.addListener(function() {
                     mesh.visible = false;
                 }
 
-                //벽지 입히기 
-                function textures() {
-                    var target = event.target;
-                    var src = event.target.src;
+    //             //벽지 입히기 
+    //             function textures() {
+    //                 var target = event.target;
+    //                 var src = event.target.src;
 
-                    var geometryXZ = new THREE.CubeGeometry( 0, 400, 400 ); //CubeGeometry(width, height, depth) = (z, y, x)
-                    var textureXZ = THREE.ImageUtils.loadTexture( src );
+    //                 var geometryXZ = new THREE.CubeGeometry( 0, 400, 400 ); //CubeGeometry(width, height, depth) = (z, y, x)
+    //                 var textureXZ = THREE.ImageUtils.loadTexture( src );
 
-					mesh.position.set(50, 50, 50);
-					mesh.visible = false;
-				}
+				// 	mesh.position.set(50, 50, 50);
+				// 	mesh.visible = false;
+				// }
 
 				function textures() {
                     var target = event.target;
@@ -194,12 +197,12 @@ chrome.app.runtime.onLaunched.addListener(function() {
 
                     var loader = new THREE.OBJMTLLoader();
                     switch (src) {
-                        case 'chrome-extension://fkpanmechngakainjnoclnjfkfnnjmfd/static/textures/chair1.png' :
+                        case 'chrome-extension://oaokofkkbemjgljhagkmamobfggdijho/static/textures/chair1.png' :
                             obj = '/static/obj/chair/Vitra Chairs-3.obj';
                             mtl = '/static/obj/chair/Vitra Chairs-3.mtl';
 
                             break;
-                        case 'chrome-extension://fkpanmechngakainjnoclnjfkfnnjmfd/static/textures/014.jpg' :
+                        case 'chrome-extension://oaokofkkbemjgljhagkmamobfggdijho/static/textures/014.jpg' :
                             obj = '/static/obj/chair/014.obj';
                             mtl = '/static/obj/chair/014.mtl';
 
@@ -225,12 +228,12 @@ chrome.app.runtime.onLaunched.addListener(function() {
 
                     var loader = new THREE.OBJMTLLoader();
                     switch (src) {
-                        case 'chrome-extension://fkpanmechngakainjnoclnjfkfnnjmfd/static/textures/Desk1.jpg':
+                        case 'chrome-extension://oaokofkkbemjgljhagkmamobfggdijho/static/textures/Desk1.jpg':
                             obj = '/static/obj/desk/Desk1.obj';
                             mtl = '/static/obj/desk/Desk1.mtl';
 
                             break;
-                        case 'chrome-extension://fkpanmechngakainjnoclnjfkfnnjmfd/static/textures/desk2.jpg' :
+                        case 'chrome-extension://oaokofkkbemjgljhagkmamobfggdijho/static/textures/desk2.jpg' :
                             obj = '/static/obj/desk/desk2.obj';
                             mtl = '/static/obj/desk/desk2.mtl';
 
