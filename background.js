@@ -189,6 +189,10 @@ function chair() {
     obj = src.replace('png', 'obj');
     mtl = src.replace('png', 'mtl');
 
+    console.log(src);
+    console.log(obj);
+    console.log(mtl);
+
     loader.load(obj, mtl, function(object) {
         scene.add(object);
         object.position.set(100, 0, 100);
@@ -201,22 +205,12 @@ function desk() {
     var obj, mtl;
 
     var loader = new THREE.OBJMTLLoader();
-    switch (src) {
-        case 'chrome-extension://oaokofkkbemjgljhagkmamobfggdijho/static/textures/Desk1.jpg':
-            obj = '/static/obj/desk/Desk1.obj';
-            mtl = '/static/obj/desk/Desk1.mtl';
-
-            break;
-        case 'chrome-extension://oaokofkkbemjgljhagkmamobfggdijho/static/textures/desk2.jpg' :
-            obj = '/static/obj/desk/desk2.obj';
-            mtl = '/static/obj/desk/desk2.mtl';
-
-            break;
-    }
+    obj = src.replace('png', 'obj');
+    mtl = src.replace('png', 'mtl');
 
     loader.load(obj, mtl, function(object) {
         scene.add(object);
-        object2.position.set(0, 0, 0);
+        object.position.set(100, 100, 100);
     });
 }
 
